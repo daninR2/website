@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daniyal's Portfolio</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configure Tailwind with dark theme colors and custom alignment CSS -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000; /* Deep Black Background */
+        }
+        /* Custom classes to ensure vertical alignment of content in project cards */
+        .fpl-card-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* Ensures all cards take full height */
+        }
+        .fpl-card-description {
+            flex-grow: 1; /* Pushes the subsequent elements (action bar) down */
+            margin-bottom: 0.75rem; /* Reduced margin to look cleaner */
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#fde047', /* Yellow accent */
+                        'secondary': '#ffffff', /* White main text */
+                        'background-dark': '#1f2937', /* Dark Slate background for cards/sections */
+                        'background-body': '#000000', /* Black main background */
+                    }
+                }
+            }
+        }
+
+        // --- Single Page Application (SPA) Project Data and Routing Logic ---
+        const projects = [
+            {
+                id: 'stock-simulator',
+                title: 'Stock Market Simulator',
+                description: 'A GUI-based stock market simulator using Java and PHP which simulates replicated real-world volatility and trading behavior.',
+                tech: ['Java', 'PHP'],
+                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M18 10h-4M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>`,
+                content: `
+                    <h2 class="text-4xl font-bold text-primary mb-6">Stock Market Simulator Demo</h2>
+                    <p class="text-lg mb-8 text-gray-300">
+                        This project was a deep dive into simulating complex, real-world systems. It features a graphical user interface (GUI) built with Java Swing and a PHP backend handling dynamic data feeds and user account management. The core simulation engine uses a custom algorithm to model volatility, liquidity, and trading fees.
+                    </p>
+                    <div class="w-full h-64 bg-gray-700 rounded-xl flex items-center justify-center text-gray-400 text-lg font-mono border-4 border-primary/50">
+                        [Demo Content Placeholder: Stock Chart]
+                    </div>
+                `
+            },
+            {
+                id: 'sql-banking',
+                title: 'SQL Banking Database',
+                description: 'Designed and implemented a SQL-based banking database managing over 1,000 simulated user accounts, streamlining financial records.',
+                tech: ['Python', 'SQL'],
+                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>`,
+                content: `
+                    <h2 class="text-4xl font-bold text-primary mb-6">SQL Banking Database Demo</h2>
+                    <p class="text-lg mb-8 text-gray-300">
+                        The objective of this project was to demonstrate robust relational database design and efficient query writing. The database schema included normalized tables for accounts, customers, transactions, and branches.
+                    </p>
+                    <div class="w-full h-64 bg-gray-700 rounded-xl flex items-center justify-center text-gray-400 text-lg font-mono border-4 border-primary/50">
+                        [Demo Content Placeholder: Database Schema]
+                    </div>
+                `
+            },
+            {
+                id: 'fpl-helper',
+                title: 'FPL Helper',
+                description: 'Coming soon...!',
+                tech: ['TypeScript', 'Cloud'],
+                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2-3-.895-3-2 1.343-2 3-2zM4 17h16M4 17l.793-1.587A2 2 0 017 14h10a2 2 0 012.207 1.413L20 17M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"></path></svg>`,
+                content: `
+                    <h2 class="text-4xl font-bold text-primary mb-6">FPL Helper (Future Project)</h2>
+                    <p class="text-lg mb-8 text-gray-300">
+                        This is a planned project focused on providing advanced statistical analysis and predictive modeling for the Fantasy Premier League (FPL) game.
+                    </p>
+                    <div class="w-full h-64 bg-gray-700 rounded-xl flex items-center justify-center text-gray-400 text-lg font-mono border-4 border-primary/50">
+                        [Demo Content Placeholder: Roadmap]
+                    </div>
+                `
+            }
+        ];
+
+        // Function to switch content between Home and Demo pages
+        function navigateTo(pageId) {
+            const mainContent = document.getElementById('main-content');
+            const project = projects.find(p => p.id === pageId);
+            
+            if (pageId === 'home') {
+                mainContent.innerHTML = getHomePageContent();
+                // Handle scrolling to anchors like #projects
+                setTimeout(() => {
+                    const hash = window.location.hash;
+                    if (hash) {
+                        document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                }, 0);
+            } else if (project) {
+                mainContent.innerHTML = getDemoPageContent(project);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Generates the content for a Project Demo page
+        function getDemoPageContent(project) {
+            return `
+                <section class="py-16 md:py-24 bg-background-dark rounded-xl shadow-2xl mb-16 px-6 lg:px-12">
+                    <button onclick="navigateTo('home')" class="text-primary hover:text-white mb-8 flex items-center transition duration-150">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        Back to Portfolio
+                    </button>
+                    ${project.content}
+                </section>
+            `;
+        }
+
+        // Generates the content for the Home Page, including all project cards
+        function getHomePageContent() {
+            return `
+                <!-- Hero Section -->
+                <section id="hero" class="text-center py-16 md:py-24 bg-background-dark rounded-xl shadow-2xl mb-16">
+                    <h1 class="text-5xl md:text-6xl font-extrabold mb-4 text-secondary">
+                        Hi, I'm <span class="text-primary">Daniyal</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto">
+                        I'm currently a third-year Computer Science student at Laurier!
+                    </p>
+                    <a href="#projects" onclick="document.getElementById('projects').scrollIntoView({ behavior: 'smooth' }); return false;" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-lg text-black bg-primary hover:bg-yellow-500 transition duration-300 transform hover:scale-105">
+                        View My Projects
+                    </a>
+                </section>
+
+                <hr class="border-gray-700 mb-16">
+
+                <!-- Projects Section -->
+                <section id="projects" class="py-12">
+                    <h2 class="text-4xl font-bold text-secondary mb-10 text-center">Featured Projects</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        ${projects.map(project => `
+                            <!-- Card Wrapper: px-6 pt-6 for top/side padding, pb-0 to let the action bar handle the bottom padding -->
+                            <div class="bg-background-dark px-6 pt-6 pb-0 rounded-xl shadow-2xl hover:shadow-primary/50 transition duration-300 border border-gray-700">
+                                <div class="text-primary text-3xl mb-4">
+                                    ${project.iconSvg}
+                                </div>
+                                <div class="fpl-card-content">
+                                    <h3 class="text-xl font-semibold mb-2 text-secondary">${project.title}</h3>
+                                    
+                                    <p class="text-gray-400 text-sm fpl-card-description">
+                                        ${project.description}
+                                    </p>
+
+                                    <!-- Action Bar: Pushed to the bottom. Added py-4 to provide the clean bottom padding for the card. -->
+                                    <div class="flex items-center justify-between mt-auto pt-2 pb-4">
+                                        
+                                        <!-- Left side: Tags -->
+                                        <div class="flex space-x-3 text-sm font-medium"> 
+                                            ${project.tech.map(t => `<span class="bg-gray-700 text-primary px-2 py-0.5 rounded-full">${t}</span>`).join('')}
+                                        </div>
+
+                                        <!-- Right side: Links -->
+                                        <div class="flex space-x-3">
+                                            <a href="#" onclick="navigateTo('${project.id}'); return false;" class="text-primary hover:text-yellow-500 text-sm font-medium flex items-center">
+                                                View Demo &rarr;
+                                            </a>
+                                            <a href="#" class="text-gray-400 hover:text-secondary text-sm font-medium">GitHub</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>
+                
+                <!-- About/Contact Sections -->
+                <section id="about" class="py-12 text-center">
+                    <h2 class="text-3xl font-bold text-secondary mb-4">About Me</h2>
+                    <p class="text-lg text-gray-400 max-w-4xl mx-auto mb-10">
+                        I am passionate about creating clean, efficient, and well-documented code. My focus is on full-stack development, but I enjoy diving deep into new frameworks and technologies to solve complex problems.
+                    </p>
+
+                    <!-- Photo Gallery Section -->
+                    <div class="bg-background-dark p-8 rounded-xl shadow-2xl mb-16">
+                        <h3 class="text-2xl font-bold text-primary mb-6">A Few Snapshots</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            
+                            <!-- Image 1 -->
+                            <div class="rounded-lg overflow-hidden shadow-lg border border-gray-700">
+                                <img src="https://placehold.co/500x350/111827/4b5563?text=Hackathon" alt="Photo from a recent hackathon event" class="w-full h-full object-cover aspect-video transition duration-300 hover:scale-[1.02]">
+                                <p class="text-xs text-gray-400 p-2">Team building at a recent hackathon.</p>
+                            </div>
+
+                            <!-- Image 2 -->
+                            <div class="rounded-lg overflow-hidden shadow-lg border border-gray-700">
+                                <img src="https://placehold.co/500x350/111827/4b5563?text=Workspace" alt="Photo of my coding workspace setup" class="w-full h-full object-cover aspect-video transition duration-300 hover:scale-[1.02]">
+                                <p class="text-xs text-gray-400 p-2">My clean coding setup.</p>
+                            </div>
+
+                            <!-- Image 3 -->
+                            <div class="rounded-lg overflow-hidden shadow-lg border border-gray-700">
+                                <img src="https://placehold.co/500x350/111827/4b5563?text=Hobby" alt="Photo related to a hobby or interest" class="w-full h-full object-cover aspect-video transition duration-300 hover:scale-[1.02]">
+                                <p class="text-xs text-gray-400 p-2">Hiking on a study break.</p>
+                            </div>
+
+                            <!-- Image 4 -->
+                            <div class="rounded-lg overflow-hidden shadow-lg border border-gray-700">
+                                <img src="https://placehold.co/500x350/111827/4b5563?text=Technology" alt="Abstract tech photo or diagram" class="w-full h-full object-cover aspect-video transition duration-300 hover:scale-[1.02]">
+                                <p class="text-xs text-gray-400 p-2">Diagram of a microservice architecture.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tech Stack Section -->
+                    <div class="bg-background-dark p-8 rounded-xl shadow-2xl">
+                        <h3 class="text-2xl font-bold text-primary mb-6">My Tech Stack</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 text-left">
+
+                            <!-- Category 1: Frontend -->
+                            <div class="p-4 bg-gray-800 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700">
+                                <div class="text-primary text-2xl mb-1 flex items-center">
+                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                                    <span class="font-semibold text-white">Frontend</span>
+                                </div>
+                                <ul class="text-sm text-gray-400 list-disc list-inside ml-2 space-y-0.5">
+                                    <li>HTML/CSS</li>
+                                    <li>JavaScript</li>
+                                    <li>React/Angular</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Category 2: Backend -->
+                            <div class="p-4 bg-gray-800 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700">
+                                <div class="text-primary text-2xl mb-1 flex items-center">
+                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                    <span class="font-semibold text-white">Backend</span>
+                                </div>
+                                <ul class="text-sm text-gray-400 list-disc list-inside ml-2 space-y-0.5">
+                                    <li>Node.js</li>
+                                    <li>Python (Flask)</li>
+                                    <li>Java (Spring)</li>
+                                </ul>
+                            </div>
+
+                            <!-- Category 3: Database & ORM -->
+                            <div class="p-4 bg-gray-800 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700">
+                                <div class="text-primary text-2xl mb-1 flex items-center">
+                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10h16V7M4 7h16M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4M4 17h16M4 17c0 2.21 3.582 4 8 4s8-1.79 8-4"></path></svg>
+                                    <span class="font-semibold text-white">Database</span>
+                                </div>
+                                <ul class="text-sm text-gray-400 list-disc list-inside ml-2 space-y-0.5">
+                                    <li>PostgreSQL</li>
+                                    <li>MySQL/SQL</li>
+                                    <li>MongoDB</li>
+                                </ul>
+                            </div>
+
+                            <!-- Category 4: Cloud & DevOps -->
+                            <div class="p-4 bg-gray-800 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700">
+                                <div class="text-primary text-2xl mb-1 flex items-center">
+                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                    <span class="font-semibold text-white">Cloud/Ops</span>
+                                </div>
+                                <ul class="text-sm text-gray-400 list-disc list-inside ml-2 space-y-0.5">
+                                    <li>AWS/GCP</li>
+                                    <li>Docker</li>
+                                    <li>Git/GitHub</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="contact" class="py-12 text-center">
+                    <h2 class="text-3xl font-bold text-secondary mb-4">Get In Touch</h2>
+                    <a href="mailto:naqv7430@mylaurier.ca" class="text-xl text-primary hover:text-yellow-500 font-medium transition duration-150">naqv7430@mylaurier.ca</a>
+                </section>
+            `;
+        }
+        
+        // Initialize the app by loading the home page content
+        // This function ensures the page content is loaded on page load
+        window.onload = () => {
+            navigateTo('home');
+        };
+
+        // Handles navigation bar clicks to ensure smooth scrolling on the home page
+        function handleNavClick(event, targetId) {
+            if (targetId.startsWith('#')) {
+                event.preventDefault();
+                navigateTo('home');
+                setTimeout(() => {
+                    document.querySelector(targetId)?.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            } else {
+                return true;
+            }
+        }
+    </script>
+</head>
+<body class="bg-background-body text-secondary min-h-screen">
+
+    <!-- Navigation Bar (Fixed Dark Theme) -->
+    <nav class="sticky top-0 z-10 bg-background-body shadow-2xl shadow-primary/10 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" onclick="navigateTo('home'); return false;" class="text-2xl font-bold text-primary hover:text-yellow-500 transition duration-150">DANIYAL.DE</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#projects" onclick="handleNavClick(event, '#projects')" class="text-gray-400 hover:text-primary transition duration-150 font-medium">Projects</a>
+                    <a href="#about" onclick="handleNavClick(event, '#about')" class="text-gray-400 hover:text-primary transition duration-150 font-medium">About</a>
+                    <a href="#contact" href="mailto:naqv7430@mylaurier.ca" class="px-3 py-1 text-sm font-semibold rounded-full text-black bg-primary hover:bg-yellow-500 transition duration-150 shadow-lg">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area: Content is dynamically injected here by JavaScript -->
+    <main id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Fallback text while loading -->
+        <div class="text-center text-gray-500 py-24">Loading portfolio...</div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-background-dark text-gray-500 py-6 mt-16 border-t border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
+            &copy; 2025 Daniyal. Built with Tailwind CSS and JavaScript.
+        </div>
+    </footer>
+
+</body>
+</html>
