@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daniyal's Portfolio</title>
-    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Configure Tailwind with dark theme colors and custom alignment CSS -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         body {
@@ -88,7 +86,43 @@
                         [Demo Content Placeholder: Roadmap]
                     </div>
                 `
-            }
+            },
+            {
+            id: 'portfolio-site',
+            title: 'Portfolio Website',
+            description: 'A responsive, modern portfolio demonstrating strong fundamental front-end design, SPA routing, and dark theme implementation using Tailwind CSS.',
+            tech: ['HTML', 'Tailwind', 'JS'], // Reduced to 3 tags
+            iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v2a2 2 0 01-2 2m0-6H5m14 0a2 2 0 00-2-2H7a2 2 0 00-2 2m0 6v-2m0 2a2 2 0 002 2h10a2 2 0 002-2m-7-6v6"></path></svg>`,
+            content: `
+                ...
+            `
+        },
+            {
+                id: 'c-sharp-data-processor',
+                title: 'C# Data Processor',
+                description: 'A command-line application built in C# to process large JSON data streams, utilizing asynchronous tasks for high-performance throughput.',
+                tech: ['C#', '.NET', 'JSON'],
+                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11l-7 7-7-7"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v14"></path></svg>`,
+                content: `
+                    <h2 class="text-4xl font-bold text-primary mb-6">C# Data Processor Demo</h2>
+                    <p class="text-lg mb-8 text-gray-300">
+                        This console utility focused on performance optimization. It includes custom error handling for corrupted data packets and utilizes multi-threading for parallel processing, reducing processing time by 40%.
+                    </p>
+                    <div class="w-full h-64 bg-gray-700 rounded-xl flex items-center justify-center text-gray-400 text-lg font-mono border-4 border-primary/50">
+                        [Demo Content Placeholder: Console Output Snippet]
+                    </div>
+                `
+            },
+            {
+            id: 'machine-learning-model',
+            title: 'ML Price Predictor',
+            description: 'A machine learning model (Random Forest) developed in Python to predict consumer housing prices based on 10+ feature variables.',
+            tech: ['Python', 'Pandas', 'Sklearn'], // Reduced to 3 tags
+            iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2-3-.895-3-2 1.343-2 3-2zM9 17h6M9 13h6M5 12v6m14-6v6M5 12a7 7 0 0114 0"></path></svg>`,
+            content: `
+                ...
+            `
+        }
         ];
 
         // Function to switch content between Home and Demo pages
@@ -129,7 +163,6 @@
         // Generates the content for the Home Page, including all project cards
         function getHomePageContent() {
             return `
-                <!-- Hero Section -->
                 <section id="hero" class="text-center py-16 md:py-24 bg-background-dark rounded-xl shadow-2xl mb-16">
                     <h1 class="text-5xl md:text-6xl font-extrabold mb-4 text-secondary">
                         Hi, I'm <span class="text-primary">Daniyal</span>
@@ -144,13 +177,11 @@
 
                 <hr class="border-gray-700 mb-16">
 
-                <!-- Projects Section -->
                 <section id="projects" class="py-12">
                     <h2 class="text-4xl font-bold text-secondary mb-10 text-center">Featured Projects</h2>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12">
                         ${projects.map(project => `
-                            <!-- Card Wrapper: px-6 pt-6 for top/side padding, pb-0 to let the action bar handle the bottom padding -->
                             <div class="bg-background-dark px-6 pt-6 pb-0 rounded-xl shadow-2xl hover:shadow-primary/50 transition duration-300 border border-gray-700">
                                 <div class="text-primary text-3xl mb-4">
                                     ${project.iconSvg}
@@ -162,15 +193,12 @@
                                         ${project.description}
                                     </p>
 
-                                    <!-- Action Bar: Pushed to the bottom. Added py-4 to provide the clean bottom padding for the card. -->
                                     <div class="flex items-center justify-between mt-auto pt-2 pb-4">
                                         
-                                        <!-- Left side: Tags -->
                                         <div class="flex space-x-3 text-sm font-medium"> 
                                             ${project.tech.map(t => `<span class="bg-gray-700 text-primary px-2 py-0.5 rounded-full">${t}</span>`).join('')}
                                         </div>
 
-                                        <!-- Right side: Links -->
                                         <div class="flex space-x-3">
                                             <a href="#" onclick="navigateTo('${project.id}'); return false;" class="text-primary hover:text-yellow-500 text-sm font-medium flex items-center">
                                                 View Demo &rarr;
@@ -184,37 +212,31 @@
                     </div>
                 </section>
                 
-                <!-- About/Contact Sections -->
                 <section id="about" class="py-12 text-center">
                     <h2 class="text-3xl font-bold text-secondary mb-4">About Me</h2>
                     <p class="text-lg text-gray-400 max-w-4xl mx-auto mb-10">
                         I am passionate about creating clean, efficient, and well-documented code. My focus is on full-stack development, but I enjoy diving deep into new frameworks and technologies to solve complex problems.
                     </p>
 
-                    <!-- Photo Gallery Section -->
                     <div class="bg-background-dark p-8 rounded-xl shadow-2xl mb-16">
                         <h3 class="text-2xl font-bold text-primary mb-6">A Few Snapshots</h3>
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                             
-                            <!-- Image 1 -->
                             <div class="rounded-lg overflow-hidden shadow-lg border border-gray-700">
                                 <img src="https://placehold.co/500x350/111827/4b5563?text=Hackathon" alt="Photo from a recent hackathon event" class="w-full h-full object-cover aspect-video transition duration-300 hover:scale-[1.02]">
                                 <p class="text-xs text-gray-400 p-2">Team building at a recent hackathon.</p>
                             </div>
 
-                            <!-- Image 2 -->
                             <div class="rounded-lg overflow-hidden shadow-lg border border-gray-700">
                                 <img src="https://placehold.co/500x350/111827/4b5563?text=Workspace" alt="Photo of my coding workspace setup" class="w-full h-full object-cover aspect-video transition duration-300 hover:scale-[1.02]">
                                 <p class="text-xs text-gray-400 p-2">My clean coding setup.</p>
                             </div>
 
-                            <!-- Image 3 -->
                             <div class="rounded-lg overflow-hidden shadow-lg border border-gray-700">
                                 <img src="https://placehold.co/500x350/111827/4b5563?text=Hobby" alt="Photo related to a hobby or interest" class="w-full h-full object-cover aspect-video transition duration-300 hover:scale-[1.02]">
                                 <p class="text-xs text-gray-400 p-2">Hiking on a study break.</p>
                             </div>
 
-                            <!-- Image 4 -->
                             <div class="rounded-lg overflow-hidden shadow-lg border border-gray-700">
                                 <img src="https://placehold.co/500x350/111827/4b5563?text=Technology" alt="Abstract tech photo or diagram" class="w-full h-full object-cover aspect-video transition duration-300 hover:scale-[1.02]">
                                 <p class="text-xs text-gray-400 p-2">Diagram of a microservice architecture.</p>
@@ -222,12 +244,10 @@
                         </div>
                     </div>
 
-                    <!-- Tech Stack Section -->
                     <div class="bg-background-dark p-8 rounded-xl shadow-2xl">
                         <h3 class="text-2xl font-bold text-primary mb-6">My Tech Stack</h3>
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 text-left">
 
-                            <!-- Category 1: Frontend -->
                             <div class="p-4 bg-gray-800 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700">
                                 <div class="text-primary text-2xl mb-1 flex items-center">
                                     <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
@@ -240,7 +260,6 @@
                                 </ul>
                             </div>
                             
-                            <!-- Category 2: Backend -->
                             <div class="p-4 bg-gray-800 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700">
                                 <div class="text-primary text-2xl mb-1 flex items-center">
                                     <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
@@ -253,7 +272,6 @@
                                 </ul>
                             </div>
 
-                            <!-- Category 3: Database & ORM -->
                             <div class="p-4 bg-gray-800 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700">
                                 <div class="text-primary text-2xl mb-1 flex items-center">
                                     <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10h16V7M4 7h16M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4M4 17h16M4 17c0 2.21 3.582 4 8 4s8-1.79 8-4"></path></svg>
@@ -266,7 +284,6 @@
                                 </ul>
                             </div>
 
-                            <!-- Category 4: Cloud & DevOps -->
                             <div class="p-4 bg-gray-800 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700">
                                 <div class="text-primary text-2xl mb-1 flex items-center">
                                     <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
@@ -290,7 +307,6 @@
         }
         
         // Initialize the app by loading the home page content
-        // This function ensures the page content is loaded on page load
         window.onload = () => {
             navigateTo('home');
         };
@@ -311,7 +327,6 @@
 </head>
 <body class="bg-background-body text-secondary min-h-screen">
 
-    <!-- Navigation Bar (Fixed Dark Theme) -->
     <nav class="sticky top-0 z-10 bg-background-body shadow-2xl shadow-primary/10 border-b border-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
@@ -327,13 +342,10 @@
         </div>
     </nav>
 
-    <!-- Main Content Area: Content is dynamically injected here by JavaScript -->
     <main id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <!-- Fallback text while loading -->
         <div class="text-center text-gray-500 py-24">Loading portfolio...</div>
     </main>
 
-    <!-- Footer -->
     <footer class="bg-background-dark text-gray-500 py-6 mt-16 border-t border-gray-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
             &copy; 2025 Daniyal. Built with Tailwind CSS and JavaScript.
@@ -342,3 +354,4 @@
 
 </body>
 </html>
+```eof
