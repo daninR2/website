@@ -8,19 +8,151 @@
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
         body {
             font-family: 'Inter', sans-serif;
             background-color: #000000; /* Deep Black Background */
+            position: relative;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            cursor: none; /* Hide default cursor */
         }
-        /* Custom classes to ensure vertical alignment of content in project cards */
+        
+        /* SAFETY: If custom cursor fails or on touch devices, show default cursor */
+        @media (hover: none) {
+            body { cursor: auto; }
+            #custom-cursor, #cursor-glow { display: none; }
+        }
+
         .fpl-card-content {
             display: flex;
             flex-direction: column;
-            height: 100%; /* Ensures all cards take full height */
+            height: 100%;
         }
         .fpl-card-description {
-            flex-grow: 1; /* Pushes the subsequent elements (action bar) down */
-            margin-bottom: 0.75rem; /* Reduced margin to look cleaner */
+            flex-grow: 1;
+            margin-bottom: 1.5rem;
+        }
+
+        /* --- GLASSMORPHISM --- */
+        .glass-panel {
+            background: rgba(30, 30, 30, 0.6); 
+            backdrop-filter: blur(12px);       
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* --- CUSTOM SCROLLBAR --- */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a855f7; }
+
+        /* --- SCROLL PROGRESS BAR --- */
+        #scroll-progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 9999;
+        }
+        #scroll-progress-bar {
+            height: 100%;
+            background: #a855f7;
+            width: 0%;
+            transition: width 0.1s;
+            box-shadow: 0 0 10px #a855f7;
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        #custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 12px;
+            height: 12px;
+            background-color: #a855f7;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            mix-blend-mode: exclusion; /* Makes it visible on light/dark backgrounds */
+        }
+        
+        #cursor-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(168, 85, 247, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.15s ease-out, height 0.15s ease-out;
+            filter: blur(5px);
+        }
+
+        /* Hover state for cursor */
+        body.hovering #custom-cursor {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(168, 85, 247, 0.1);
+            border: 1px solid #a855f7;
+        }
+        body.hovering #cursor-glow {
+            width: 0;
+            height: 0;
+        }
+
+        /* --- STARRY BACKGROUND --- */
+        #star-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .star-wrapper {
+            position: absolute;
+            pointer-events: none;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+            will-change: transform;
+        }
+        .star {
+            background-color: white;
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            animation: twinkle infinite ease-in-out;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 0.8; transform: scale(1.1); } 
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+        
+        /* --- PAGE TRANSITIONS --- */
+        #main-content {
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .page-exit {
+            opacity: 0 !important;
+            transform: translateY(20px) !important;
+        }
+        .page-enter {
+            opacity: 0 !important;
+            transform: translateY(-20px) !important;
         }
     </style>
     <script>
@@ -28,16 +160,15 @@
             theme: {
                 extend: {
                     colors: {
-                        'primary': '#fde047', /* Yellow accent */
-                        'secondary': '#ffffff', /* White main text */
-                        'background-dark': '#1f2937', /* Dark Slate background for cards/sections */
-                        'background-body': '#000000', /* Black main background */
+                        'primary': '#a855f7', 
+                        'secondary': '#ffffff', 
+                        'background-dark': '#1f2937', 
+                        'background-body': '#000000', 
                     }
                 }
             }
         }
 
-        // --- Experience Data (New Section) ---
         // --- Experience Data ---
         const experiences = [
             {
@@ -57,70 +188,41 @@
                     <h3 class="text-2xl font-bold text-secondary mb-6 border-b border-gray-700 pb-2">Media Gallery</h3>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                        
-                        <div class="relative group overflow-hidden rounded-xl border border-gray-700 shadow-lg">
+                        <div class="relative group overflow-hidden rounded-xl border border-gray-700 shadow-lg cursor-none">
                             <img src="Assets/Blossom/stonex.jpeg" alt="Blossom Team" class="w-full h-64 object-cover transform transition duration-500 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition duration-300 flex items-end">
+                            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition duration-300 flex items-end">
                                 <p class="text-white p-4 opacity-0 group-hover:opacity-100 transition duration-300 font-medium">Team Meeting</p>
                             </div>
                         </div>
-
-                        <div class="relative overflow-hidden rounded-xl border border-gray-700 shadow-lg">
+                        <div class="relative overflow-hidden rounded-xl border border-gray-700 shadow-lg cursor-none">
                             <video class="w-full h-64 object-cover" controls>
                                 <source src="Assets/Blossom/name.mp4" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         </div>
-
-                        <div class="relative group overflow-hidden rounded-xl border border-gray-700 shadow-lg">
+                        <div class="relative group overflow-hidden rounded-xl border border-gray-700 shadow-lg cursor-none">
                             <img src="Assets/Blossom/title.jpg" alt="Office Setup" class="w-full h-64 object-cover transform transition duration-500 group-hover:scale-110">
-                             <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition duration-300 flex items-end">
+                             <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition duration-300 flex items-end">
                                 <p class="text-white p-4 opacity-0 group-hover:opacity-100 transition duration-300 font-medium">Office Setup</p>
                             </div>
                         </div>
-
-                        <div class="relative group overflow-hidden rounded-xl border border-gray-700 shadow-lg">
-                            <img src="Assets/Blossom/stock-group.jpg" alt="Office Setup" class="w-full h-64 object-cover transform transition duration-500 group-hover:scale-110">
-                             <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition duration-300 flex items-end">
-                                <p class="text-white p-4 opacity-0 group-hover:opacity-100 transition duration-300 font-medium">Office Setup</p>
-                            </div>
-                        </div>
-
-                        <div class="relative group overflow-hidden rounded-xl border border-gray-700 shadow-lg">
-                            <img src="Assets/Blossom/stand.jpg" alt="Office Setup" class="w-full h-64 object-cover transform transition duration-500 group-hover:scale-110">
-                             <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition duration-300 flex items-end">
-                                <p class="text-white p-4 opacity-0 group-hover:opacity-100 transition duration-300 font-medium">Office Setup</p>
-                            </div>
-                        </div>
-
-                        <div class="relative overflow-hidden rounded-xl border border-gray-700 shadow-lg">
-                            <video class="w-full h-64 object-cover" controls>
-                                <source src="Assets/Blossom/podcast.MOV" type="video/MOV">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-
-                        </div>
+                    </div>
                 `
             }
         ];
 
-        // --- Single Page Application (SPA) Project Data and Routing Logic ---
+        // --- Project Data ---
         const projects = [
             {
                 id: 'stock-simulator',
                 title: 'Stock Market Simulator',
                 description: 'A GUI-based stock market simulator using Java and PHP which simulates replicated real-world volatility and trading behavior.',
                 tech: ['Java', 'PHP'],
-                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M18 10h-4M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>`,
+                githubUrl: 'https://github.com/daninR2/STOCK', 
+                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M18 10h-4M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>`,
                 content: `
                     <h2 class="text-4xl font-bold text-primary mb-6">Stock Market Simulator Demo</h2>
-                    <p class="text-lg mb-8 text-gray-300">
-                        This project was a deep dive into simulating complex, real-world systems. It features a graphical user interface (GUI) built with Java Swing and a PHP backend handling dynamic data feeds and user account management. The core simulation engine uses a custom algorithm to model volatility, liquidity, and trading fees.
-                    </p>
-                    <div class="w-full h-64 bg-gray-700 rounded-xl flex items-center justify-center text-gray-400 text-lg font-mono border-4 border-primary/50">
-                        [Demo Content Placeholder: Stock Chart]
-                    </div>
+                    <p class="text-lg mb-8 text-gray-300">Detailed project description...</p>
                 `
             },
             {
@@ -128,15 +230,11 @@
                 title: 'SQL Banking Database',
                 description: 'Designed and implemented a SQL-based banking database managing over 1,000 simulated user accounts, streamlining financial records.',
                 tech: ['Python', 'SQL'],
-                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>`,
+                githubUrl: 'https://github.com/daninR2/SQL-Database',
+                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>`,
                 content: `
                     <h2 class="text-4xl font-bold text-primary mb-6">SQL Banking Database Demo</h2>
-                    <p class="text-lg mb-8 text-gray-300">
-                        The objective of this project was to demonstrate robust relational database design and efficient query writing. The database schema included normalized tables for accounts, customers, transactions, and branches.
-                    </p>
-                    <div class="w-full h-64 bg-gray-700 rounded-xl flex items-center justify-center text-gray-400 text-lg font-mono border-4 border-primary/50">
-                        [Demo Content Placeholder: Database Schema]
-                    </div>
+                    <p class="text-lg mb-8 text-gray-300">Detailed project description...</p>
                 `
             },
             {
@@ -144,88 +242,88 @@
                 title: 'FPL Helper',
                 description: 'Coming soon...!',
                 tech: ['TypeScript', 'Cloud'],
-                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2-3-.895-3-2 1.343-2 3-2zM4 17h16M4 17l.793-1.587A2 2 0 017 14h10a2 2 0 012.207 1.413L20 17M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"></path></svg>`,
-                content: `
-                    <h2 class="text-4xl font-bold text-primary mb-6">FPL Helper (Future Project)</h2>
-                    <p class="text-lg mb-8 text-gray-300">
-                        This is a planned project focused on providing advanced statistical analysis and predictive modeling for the Fantasy Premier League (FPL) game.
-                    </p>
-                    <div class="w-full h-64 bg-gray-700 rounded-xl flex items-center justify-center text-gray-400 text-lg font-mono border-4 border-primary/50">
-                        [Demo Content Placeholder: Roadmap]
-                    </div>
-                `
+                githubUrl: 'https://github.com/YOUR_USERNAME/fpl-helper', 
+                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2-3-.895-3-2 1.343-2 3-2zM4 17h16M4 17l.793-1.587A2 2 0 017 14h10a2 2 0 012.207 1.413L20 17M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"></path></svg>`,
+                content: `...`
             },
             {
-            id: 'portfolio-site',
-            title: 'Portfolio Website',
-            description: 'A responsive, modern portfolio demonstrating strong fundamental front-end design, SPA routing, and dark theme implementation using Tailwind CSS.',
-            tech: ['HTML', 'Tailwind', 'JS'], // Reduced to 3 tags
-            iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v2a2 2 0 01-2 2m0-6H5m14 0a2 2 0 00-2-2H7a2 2 0 00-2 2m0 6v-2m0 2a2 2 0 002 2h10a2 2 0 002-2m-7-6v6"></path></svg>`,
-            content: `
-                ...
-            `
-        },
+                id: 'portfolio-site',
+                title: 'Portfolio Website',
+                description: 'A responsive, modern portfolio demonstrating strong fundamental front-end design, SPA routing, and dark theme implementation using Tailwind CSS.',
+                tech: ['HTML', 'Tailwind', 'JS'], 
+                githubUrl: 'https://github.com/YOUR_USERNAME/portfolio',
+                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v2a2 2 0 01-2 2m0-6H5m14 0a2 2 0 00-2-2H7a2 2 0 00-2 2m0 6v-2m0 2a2 2 0 002 2h10a2 2 0 002-2m-7-6v6"></path></svg>`,
+                content: `...`
+            },
             {
                 id: 'c-sharp-data-processor',
                 title: 'C# Data Processor',
                 description: 'A command-line application built in C# to process large JSON data streams, utilizing asynchronous tasks for high-performance throughput.',
                 tech: ['C#', '.NET', 'JSON'],
-                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11l-7 7-7-7"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v14"></path></svg>`,
-                content: `
-                    <h2 class="text-4xl font-bold text-primary mb-6">C# Data Processor Demo</h2>
-                    <p class="text-lg mb-8 text-gray-300">
-                        This console utility focused on performance optimization. It includes custom error handling for corrupted data packets and utilizes multi-threading for parallel processing, reducing processing time by 40%.
-                    </p>
-                    <div class="w-full h-64 bg-gray-700 rounded-xl flex items-center justify-center text-gray-400 text-lg font-mono border-4 border-primary/50">
-                        [Demo Content Placeholder: Console Output Snippet]
-                    </div>
-                `
+                githubUrl: 'https://github.com/YOUR_USERNAME/csharp-processor',
+                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11l-7 7-7-7"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v14"></path></svg>`,
+                content: `...`
             },
             {
-            id: 'machine-learning-model',
-            title: 'ML Price Predictor',
-            description: 'A machine learning model (Random Forest) developed in Python to predict consumer housing prices based on 10+ feature variables.',
-            tech: ['Python', 'Pandas', 'Sklearn'], // Reduced to 3 tags
-            iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2-3-.895-3-2 1.343-2 3-2zM9 17h6M9 13h6M5 12v6m14-6v6M5 12a7 7 0 0114 0"></path></svg>`,
-            content: `
-                ...
-            `
-        }
+                id: 'machine-learning-model',
+                title: 'ML Price Predictor',
+                description: 'A machine learning model (Random Forest) developed in Python to predict consumer housing prices based on 10+ feature variables.',
+                tech: ['Python', 'Sklearn'], 
+                githubUrl: 'https://github.com/YOUR_USERNAME/ml-predictor',
+                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2-3-.895-3-2 1.343-2 3-2zM9 17h6M9 13h6M5 12v6m14-6v6M5 12a7 7 0 0114 0"></path></svg>`,
+                content: `...`
+            }
         ];
         
+        // --- GLOBAL CURSOR VARIABLES ---
+        let cursor, glow;
 
-        // Function to switch content between Home, Demo, and Experience pages
+        // --- NAVIGATION WITH TRANSITIONS ---
         function navigateTo(pageId) {
             const mainContent = document.getElementById('main-content');
-            const project = projects.find(p => p.id === pageId);
-            const experience = experiences.find(e => e.id === pageId);
             
-            if (pageId === 'home') {
-                mainContent.innerHTML = getHomePageContent();
-                // Handle scrolling to anchors like #projects
-                setTimeout(() => {
-                    const hash = window.location.hash;
-                    if (hash) {
-                        document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
-                    } else {
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }
-                }, 0);
-            } else if (project) {
-                mainContent.innerHTML = getDemoPageContent(project);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else if (experience) {
-                mainContent.innerHTML = getExperiencePageContent(experience);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
+            mainContent.classList.add('page-exit');
+
+            setTimeout(() => {
+                const project = projects.find(p => p.id === pageId);
+                const experience = experiences.find(e => e.id === pageId);
+                
+                if (pageId === 'home') {
+                    mainContent.innerHTML = getHomePageContent();
+                } else if (project) {
+                    mainContent.innerHTML = getDemoPageContent(project);
+                } else if (experience) {
+                    mainContent.innerHTML = getExperiencePageContent(experience);
+                }
+
+                window.scrollTo({ top: 0, behavior: 'auto' });
+
+                mainContent.classList.remove('page-exit');
+                mainContent.classList.add('page-enter');
+
+                void mainContent.offsetWidth; // Trigger reflow
+
+                mainContent.classList.remove('page-enter');
+                
+                // Re-attach listeners for new content
+                attachInteractiveListeners();
+
+                if (pageId === 'home') {
+                    setTimeout(() => {
+                        const hash = window.location.hash;
+                        if (hash) {
+                            document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }, 100);
+                }
+            }, 300);
         }
 
-        // Generates the content for a Project Demo page
         function getDemoPageContent(project) {
             return `
-                <section class="py-16 md:py-24 bg-background-dark rounded-xl shadow-2xl mb-16 px-6 lg:px-12">
-                    <button onclick="navigateTo('home')" class="text-primary hover:text-white mb-8 flex items-center transition duration-150">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <section class="glass-panel py-16 md:py-24 rounded-xl shadow-2xl mb-16 px-6 lg:px-12">
+                    <button onclick="navigateTo('home')" class="text-primary hover:text-white mb-8 flex items-center transition duration-150 cursor-pointer-item">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                         Back to Portfolio
                     </button>
                     ${project.content}
@@ -233,12 +331,11 @@
             `;
         }
 
-        // Generates the content for an Experience Detail page (New Function)
         function getExperiencePageContent(experience) {
             return `
-                <section class="py-16 md:py-24 bg-background-dark rounded-xl shadow-2xl mb-16 px-6 lg:px-12">
-                    <button onclick="navigateTo('home')" class="text-primary hover:text-white mb-8 flex items-center transition duration-150">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <section class="glass-panel py-16 md:py-24 rounded-xl shadow-2xl mb-16 px-6 lg:px-12">
+                    <button onclick="navigateTo('home')" class="text-primary hover:text-white mb-8 flex items-center transition duration-150 cursor-pointer-item">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                         Back to Portfolio
                     </button>
                     ${experience.content}
@@ -246,29 +343,28 @@
             `;
         }
 
-        // Generates the content for the Home Page, including all project cards
         function getHomePageContent() {
             return `
-                <section id="hero" class="text-center py-16 md:py-24 bg-background-dark rounded-xl shadow-2xl mb-16">
+                <section id="hero" class="glass-panel text-center py-16 md:py-24 rounded-xl shadow-2xl mb-16">
                     <h1 class="text-5xl md:text-6xl font-extrabold mb-4 text-secondary">
-                        Hi, I'm <span class="text-primary">Daniyal</span>
+                        Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-400 drop-shadow-lg">Daniyal</span>
                     </h1>
                     <p class="text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto">
                         I'm currently a third-year Computer Science student at Laurier!
                     </p>
-                    <a href="#projects" onclick="document.getElementById('projects').scrollIntoView({ behavior: 'smooth' }); return false;" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-lg text-black bg-primary hover:bg-yellow-500 transition duration-300 transform hover:scale-105">
+                    <a href="#projects" onclick="document.getElementById('projects').scrollIntoView({ behavior: 'smooth' }); return false;" class="cursor-pointer-item inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-lg text-black bg-primary hover:bg-purple-400 transition duration-300 transform hover:scale-105">
                         View My Projects
                     </a>
                 </section>
 
-                <hr class="border-gray-700 mb-16">
+                <hr class="border-gray-800 mb-16 opacity-50">
 
                 <section id="projects" class="py-12">
                     <h2 class="text-4xl font-bold text-secondary mb-10 text-center">Featured Projects</h2>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12">
                         ${projects.map(project => `
-                            <div class="bg-background-dark px-6 pt-6 pb-0 rounded-xl shadow-2xl hover:shadow-primary/50 transition duration-300 border border-gray-700">
+                            <div class="glass-panel px-6 pt-6 pb-6 rounded-xl shadow-2xl hover:shadow-primary/40 transition duration-300 transform hover:-translate-y-1">
                                 <div class="text-primary text-3xl mb-4">
                                     ${project.iconSvg}
                                 </div>
@@ -279,17 +375,15 @@
                                         ${project.description}
                                     </p>
 
-                                    <div class="flex items-center justify-between mt-auto pt-2 pb-4">
-                                        
-                                        <div class="flex space-x-3 text-sm font-medium"> 
-                                            ${project.tech.map(t => `<span class="bg-gray-700 text-primary px-2 py-0.5 rounded-full">${t}</span>`).join('')}
+                                    <div class="flex items-center justify-between mt-auto pt-4 border-t border-gray-700/50">
+                                        <div class="flex space-x-2 text-xs font-medium"> 
+                                            ${project.tech.map(t => `<span class="bg-gray-800/80 text-primary px-2 py-0.5 rounded-full border border-gray-700">${t}</span>`).join('')}
                                         </div>
-
-                                        <div class="flex space-x-3">
-                                            <a href="#" onclick="navigateTo('${project.id}'); return false;" class="text-primary hover:text-yellow-500 text-sm font-medium flex items-center">
+                                        <div class="flex space-x-3 ml-2 whitespace-nowrap">
+                                            <a href="#" onclick="navigateTo('${project.id}'); return false;" class="text-primary hover:text-purple-400 text-sm font-medium flex items-center transition-colors cursor-pointer-item">
                                                 View Demo &rarr;
                                             </a>
-                                            <a href="#" class="text-gray-400 hover:text-secondary text-sm font-medium">GitHub</a>
+                                            <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white text-sm font-medium transition-colors cursor-pointer-item">GitHub</a>
                                         </div>
                                     </div>
                                 </div>
@@ -309,19 +403,19 @@
                         <ol class="relative border-l border-gray-700 ml-4 md:ml-6">                  
                             ${experiences.map(exp => `
                                 <li class="mb-10 ml-8 group">
-                                    <span class="absolute flex items-center justify-center w-8 h-8 bg-background-dark rounded-full -left-4 ring-4 ring-background-body border-2 border-gray-600 group-hover:border-primary transition duration-300">
-                                        <svg class="w-4 h-4 text-gray-400 group-hover:text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                    <span class="absolute flex items-center justify-center w-8 h-8 bg-gray-900 rounded-full -left-4 ring-4 ring-background-body border-2 border-gray-600 group-hover:border-primary transition duration-300">
+                                        <svg class="w-4 h-4 text-gray-400 group-hover:text-primary" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
                                     </span>
-                                    <div class="p-6 bg-background-dark rounded-xl border border-gray-700 shadow-lg hover:shadow-primary/20 transition duration-300 cursor-pointer" onclick="navigateTo('${exp.id}')">
+                                    <div class="p-6 glass-panel rounded-xl hover:shadow-primary/20 transition duration-300 cursor-pointer cursor-pointer-item" onclick="navigateTo('${exp.id}')">
                                         <h3 class="flex items-center mb-1 text-xl font-semibold text-secondary group-hover:text-primary transition duration-300">
                                             ${exp.title}
-                                            <span class="bg-primary/20 text-primary text-xs font-medium mr-2 px-2.5 py-0.5 rounded ml-3">Latest</span>
+                                            <span class="bg-primary/20 text-primary text-xs font-medium mr-2 px-2.5 py-0.5 rounded ml-3 border border-primary/20">Latest</span>
                                         </h3>
                                         <time class="block mb-3 text-sm font-normal leading-none text-gray-500">${exp.date}</time>
                                         <p class="mb-4 text-base font-normal text-gray-400">${exp.description}</p>
                                         <a href="#" onclick="navigateTo('${exp.id}'); return false;" class="inline-flex items-center text-sm font-medium text-primary hover:text-white transition duration-150">
                                             Read more 
-                                            <svg class="w-3 h-3 ml-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                            <svg class="w-3 h-3 ml-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                                         </a>
                                     </div>
                                 </li>
@@ -329,13 +423,12 @@
                         </ol>
                     </div>
 
-                    <div class="bg-background-dark p-8 rounded-xl shadow-2xl">
+                    <div class="glass-panel p-8 rounded-xl shadow-2xl">
                         <h3 class="text-2xl font-bold text-primary mb-6">My Tech Stack</h3>
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 text-left">
-
-                            <div class="p-4 bg-gray-800 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700">
+                            <div class="p-4 bg-gray-800/50 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700/80 cursor-pointer-item">
                                 <div class="text-primary text-2xl mb-1 flex items-center">
-                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
                                     <span class="font-semibold text-white">Frontend</span>
                                 </div>
                                 <ul class="text-sm text-gray-400 list-disc list-inside ml-2 space-y-0.5">
@@ -344,10 +437,9 @@
                                     <li>React/Angular</li>
                                 </ul>
                             </div>
-                            
-                            <div class="p-4 bg-gray-800 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700">
+                            <div class="p-4 bg-gray-800/50 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700/80 cursor-pointer-item">
                                 <div class="text-primary text-2xl mb-1 flex items-center">
-                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                                     <span class="font-semibold text-white">Backend</span>
                                 </div>
                                 <ul class="text-sm text-gray-400 list-disc list-inside ml-2 space-y-0.5">
@@ -356,10 +448,9 @@
                                     <li>Java (Spring)</li>
                                 </ul>
                             </div>
-
-                            <div class="p-4 bg-gray-800 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700">
+                             <div class="p-4 bg-gray-800/50 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700/80 cursor-pointer-item">
                                 <div class="text-primary text-2xl mb-1 flex items-center">
-                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10h16V7M4 7h16M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4M4 17h16M4 17c0 2.21 3.582 4 8 4s8-1.79 8-4"></path></svg>
+                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10h16V7M4 7h16M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4M4 17h16M4 17c0 2.21 3.582 4 8 4s8-1.79 8-4"></path></svg>
                                     <span class="font-semibold text-white">Database</span>
                                 </div>
                                 <ul class="text-sm text-gray-400 list-disc list-inside ml-2 space-y-0.5">
@@ -368,10 +459,9 @@
                                     <li>MongoDB</li>
                                 </ul>
                             </div>
-
-                            <div class="p-4 bg-gray-800 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700">
+                            <div class="p-4 bg-gray-800/50 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700/80 cursor-pointer-item">
                                 <div class="text-primary text-2xl mb-1 flex items-center">
-                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                                     <span class="font-semibold text-white">Cloud/Ops</span>
                                 </div>
                                 <ul class="text-sm text-gray-400 list-disc list-inside ml-2 space-y-0.5">
@@ -386,17 +476,135 @@
 
                 <section id="contact" class="py-12 text-center">
                     <h2 class="text-3xl font-bold text-secondary mb-4">Get In Touch</h2>
-                    <a href="mailto:naqv7430@mylaurier.ca" class="text-xl text-primary hover:text-yellow-500 font-medium transition duration-150">naqv7430@mylaurier.ca</a>
+                    <a href="mailto:naqv7430@mylaurier.ca" class="cursor-pointer-item text-xl text-primary hover:text-purple-400 font-medium transition duration-150">naqv7430@mylaurier.ca</a>
                 </section>
             `;
         }
         
-        // Initialize the app by loading the home page content
+        // --- STARTUP LOGIC ---
         window.onload = () => {
+            // FIX: Initialize cursor variables HERE, when HTML is ready
+            cursor = document.getElementById('custom-cursor');
+            glow = document.getElementById('cursor-glow');
+
+            createStars(); 
+            animateStars(); 
             navigateTo('home');
+            attachInteractiveListeners(); // Ensure listeners attached initially
         };
 
-        // Handles navigation bar clicks to ensure smooth scrolling on the home page
+        // --- SCROLL PROGRESS LOGIC ---
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (scrollTop / scrollHeight) * 100;
+            const progressBar = document.getElementById('scroll-progress-bar');
+            if (progressBar) progressBar.style.width = scrolled + "%";
+        });
+
+        // --- CUSTOM CURSOR LOGIC ---
+        let mouse = { x: -1000, y: -1000 }; 
+        
+        // Update mouse position
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+            
+            // Move cursor elements only if they exist
+            if(cursor) {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            }
+            if(glow) {
+                glow.style.left = e.clientX + 'px';
+                glow.style.top = e.clientY + 'px';
+            }
+        });
+
+        // Add interaction effect on hoverable elements
+        function attachInteractiveListeners() {
+            // Select all interactive elements
+            const interactiveElements = document.querySelectorAll('a, button, input, .cursor-pointer, .cursor-pointer-item');
+            
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    document.body.classList.add('hovering');
+                });
+                el.addEventListener('mouseleave', () => {
+                    document.body.classList.remove('hovering');
+                });
+            });
+        }
+
+        // --- STARRY BACKGROUND LOGIC (With Repulsion) ---
+        const starData = [];
+
+        function createStars() {
+            const starContainer = document.getElementById('star-container');
+            const starCount = 100;
+
+            for (let i = 0; i < starCount; i++) {
+                const wrapper = document.createElement('div');
+                wrapper.classList.add('star-wrapper');
+                
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const size = Math.random() * 2 + 1; 
+                const duration = Math.random() * 3 + 2; 
+                const delay = Math.random() * 5;
+
+                wrapper.style.left = `${x}%`;
+                wrapper.style.top = `${y}%`;
+                wrapper.style.width = `${size}px`;
+                wrapper.style.height = `${size}px`;
+
+                star.style.animationDuration = `${duration}s`;
+                star.style.animationDelay = `${delay}s`;
+                
+                if (Math.random() > 0.8) {
+                    star.style.backgroundColor = '#a855f7';
+                    star.style.boxShadow = `0 0 ${size * 2}px #a855f7`;
+                }
+
+                wrapper.appendChild(star);
+                starContainer.appendChild(wrapper);
+
+                starData.push({ element: wrapper, xPct: x, yPct: y });
+            }
+        }
+
+        function animateStars() {
+            requestAnimationFrame(animateStars);
+
+            const maxDist = 150; 
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            starData.forEach(star => {
+                const starX = (star.xPct / 100) * width;
+                const starY = (star.yPct / 100) * height;
+
+                const dx = mouse.x - starX;
+                const dy = mouse.y - starY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < maxDist) {
+                    const force = (maxDist - dist) / maxDist; 
+                    const angle = Math.atan2(dy, dx);
+                    
+                    const moveX = Math.cos(angle) * force * -100;
+                    const moveY = Math.sin(angle) * force * -100;
+
+                    star.element.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                } else {
+                    star.element.style.transform = `translate(0px, 0px)`;
+                }
+            });
+        }
+
         function handleNavClick(event, targetId) {
             if (targetId.startsWith('#')) {
                 event.preventDefault();
@@ -411,17 +619,26 @@
     </script>
 </head>
 <body class="bg-background-body text-secondary min-h-screen">
+    
+    <div id="scroll-progress-container">
+        <div id="scroll-progress-bar"></div>
+    </div>
 
-    <nav class="sticky top-0 z-10 bg-background-body shadow-2xl shadow-primary/10 border-b border-gray-800">
+    <div id="custom-cursor"></div>
+    <div id="cursor-glow"></div>
+
+    <div id="star-container"></div>
+
+    <nav class="sticky top-0 z-10 bg-background-body shadow-2xl shadow-primary/10 border-b border-gray-800 glass-panel">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
-                    <a href="#" onclick="navigateTo('home'); return false;" class="text-2xl font-bold text-primary hover:text-yellow-500 transition duration-150">DANIYAL.DE</a>
+                    <a href="#" onclick="navigateTo('home'); return false;" class="text-2xl font-bold text-primary hover:text-purple-400 transition duration-150 cursor-pointer-item">DANIYAL.DE</a>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <a href="#projects" onclick="handleNavClick(event, '#projects')" class="text-gray-400 hover:text-primary transition duration-150 font-medium">Projects</a>
-                    <a href="#about" onclick="handleNavClick(event, '#about')" class="text-gray-400 hover:text-primary transition duration-150 font-medium">About</a>
-                    <a href="#contact" href="mailto:naqv7430@mylaurier.ca" class="px-3 py-1 text-sm font-semibold rounded-full text-black bg-primary hover:bg-yellow-500 transition duration-150 shadow-lg">Contact</a>
+                    <a href="#projects" onclick="handleNavClick(event, '#projects')" class="text-gray-400 hover:text-primary transition duration-150 font-medium cursor-pointer-item">Projects</a>
+                    <a href="#about" onclick="handleNavClick(event, '#about')" class="text-gray-400 hover:text-primary transition duration-150 font-medium cursor-pointer-item">About</a>
+                    <a href="#contact" href="mailto:naqv7430@mylaurier.ca" class="px-3 py-1 text-sm font-semibold rounded-full text-black bg-primary hover:bg-purple-400 transition duration-150 shadow-lg cursor-pointer-item">Contact</a>
                 </div>
             </div>
         </div>
@@ -431,7 +648,7 @@
         <div class="text-center text-gray-500 py-24">Loading portfolio...</div>
     </main>
 
-    <footer class="bg-background-dark text-gray-500 py-6 mt-16 border-t border-gray-700">
+    <footer class="bg-background-dark text-gray-500 py-6 mt-16 border-t border-gray-700 glass-panel">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
             &copy; 2025 Daniyal. Built with Tailwind CSS and JavaScript.
         </div>
