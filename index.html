@@ -11,13 +11,12 @@
         
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #000000; /* Deep Black Background */
+            background-color: #000000; 
             position: relative;
-            overflow-x: hidden; /* Prevent horizontal scroll */
-            cursor: none; /* Hide default cursor */
+            overflow-x: hidden;
+            cursor: none;
         }
         
-        /* SAFETY: If custom cursor fails or on touch devices, show default cursor */
         @media (hover: none) {
             body { cursor: auto; }
             #custom-cursor, #cursor-glow { display: none; }
@@ -35,27 +34,25 @@
 
         /* --- GLASSMORPHISM --- */
         .glass-panel {
-            background: rgba(30, 30, 30, 0.6); 
-            backdrop-filter: blur(12px);       
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            background: rgba(10, 10, 25, 0.7); 
+            backdrop-filter: blur(16px);       
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(168, 85, 247, 0.15); 
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
         }
 
-        /* --- CUSTOM SCROLLBAR --- */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #1e1b4b; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #a855f7; }
 
-        /* --- SCROLL PROGRESS BAR --- */
         #scroll-progress-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 3px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             z-index: 9999;
         }
         #scroll-progress-bar {
@@ -66,7 +63,6 @@
             box-shadow: 0 0 10px #a855f7;
         }
 
-        /* --- CUSTOM CURSOR --- */
         #custom-cursor {
             position: fixed;
             top: 0;
@@ -79,7 +75,7 @@
             z-index: 10000;
             transform: translate(-50%, -50%);
             transition: width 0.3s, height 0.3s, background-color 0.3s;
-            mix-blend-mode: exclusion; /* Makes it visible on light/dark backgrounds */
+            mix-blend-mode: exclusion;
         }
         
         #cursor-glow {
@@ -97,7 +93,6 @@
             filter: blur(5px);
         }
 
-        /* Hover state for cursor */
         body.hovering #custom-cursor {
             width: 50px;
             height: 50px;
@@ -109,7 +104,6 @@
             height: 0;
         }
 
-        /* --- STARRY BACKGROUND --- */
         #star-container {
             position: fixed;
             top: 0;
@@ -140,7 +134,6 @@
             100% { opacity: 0; transform: scale(0.5); }
         }
         
-        /* --- PAGE TRANSITIONS --- */
         #main-content {
             transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
             opacity: 1;
@@ -156,51 +149,64 @@
         }
     </style>
     <script>
+        // CRITICAL: Stop the browser from remembering the old scroll position
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         'primary': '#a855f7', 
                         'secondary': '#ffffff', 
-                        'background-dark': '#1f2937', 
+                        'background-dark': '#020617', 
                         'background-body': '#000000', 
                     }
                 }
             }
         }
 
-        // --- Experience Data ---
         const experiences = [
             {
                 id: 'blossom-social',
                 title: 'Blossom Social',
-                date: 'September 2024 - Present',
+                date: 'September 2024 - December 2024',
                 role: 'Software Developer',
-                description: 'Contributed to the development of a social fintech platform, enhancing user engagement features.',
+                description: 'Coordinated cross-functional teams and managed financial operations to streamline product delivery and user payouts.',
                 content: `
                     <h2 class="text-4xl font-bold text-primary mb-2">Blossom Social</h2>
-                    <h3 class="text-xl text-white mb-6">September 2024 - Present</h3>
+                    <h3 class="text-xl text-white mb-6">September 2024 - December 2024</h3>
                     
-                    <p class="text-lg mb-8 text-gray-300">
-                        At Blossom Social, I worked on the core mobile application features. My primary responsibilities included optimizing API endpoints for faster data retrieval and implementing new social feed algorithms that increased user retention by 15%. I utilized React Native for the frontend and Python (Django) for the backend services.
+                    <p class="text-lg mb-8 text-slate-300">
+                        At Blossom, I worked at the intersection of the business, marketing, and product teams to make sure we were actually building what users wanted. I focused a lot on making our workflow more efficient, like setting up JIRA tracking to keep our sprints moving without the usual delays.
                     </p>
 
-                    <h3 class="text-2xl font-bold text-secondary mb-6 border-b border-gray-700 pb-2">Media Gallery</h3>
+                    <p class="text-lg mb-8 text-slate-300">
+                        Since I’m big on the finance side of things, I also took over managing user payouts—I built a checklist system that helped us achieve a 100% on-time payout rate. I also handled internal reporting to keep everyone aligned on key performance metrics.
+                    </p>
+
+                    <p class="text-lg mb-8 text-slate-300">
+                        Being able to learn from a small team of exceptional people was incredible. I saw firsthand the effort that went into scaling the platform, and getting to attend a TSX Market Close is an experience I will cherish forever.
+                    </p>
+
+                    <h3 class="text-2xl font-bold text-secondary mb-6 border-b border-slate-700 pb-2">Media Gallery</h3>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                        <div class="relative group overflow-hidden rounded-xl border border-gray-700 shadow-lg cursor-none">
+                        <div class="relative group overflow-hidden rounded-xl border border-slate-800 shadow-lg cursor-none">
                             <img src="Assets/Blossom/stonex.jpeg" alt="Blossom Team" class="w-full h-64 object-cover transform transition duration-500 group-hover:scale-110">
                             <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition duration-300 flex items-end">
                                 <p class="text-white p-4 opacity-0 group-hover:opacity-100 transition duration-300 font-medium">Team Meeting</p>
                             </div>
                         </div>
-                        <div class="relative overflow-hidden rounded-xl border border-gray-700 shadow-lg cursor-none">
+                        <div class="relative overflow-hidden rounded-xl border border-slate-800 shadow-lg cursor-none">
                             <video class="w-full h-64 object-cover" controls>
                                 <source src="Assets/Blossom/name.mp4" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         </div>
-                        <div class="relative group overflow-hidden rounded-xl border border-gray-700 shadow-lg cursor-none">
+                        <div class="relative group overflow-hidden rounded-xl border border-slate-800 shadow-lg cursor-none">
                             <img src="Assets/Blossom/title.jpg" alt="Office Setup" class="w-full h-64 object-cover transform transition duration-500 group-hover:scale-110">
                              <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition duration-300 flex items-end">
                                 <p class="text-white p-4 opacity-0 group-hover:opacity-100 transition duration-300 font-medium">Office Setup</p>
@@ -211,77 +217,79 @@
             }
         ];
 
-        // --- Project Data ---
         const projects = [
             {
                 id: 'stock-simulator',
                 title: 'Stock Market Simulator',
-                description: 'A GUI-based stock market simulator using Java and PHP which simulates replicated real-world volatility and trading behavior.',
-                tech: ['Java', 'PHP'],
+                description: 'A "paper trading" simulator tracking buys, sells, and profits.',
+                tech: ['Java'],
                 githubUrl: 'https://github.com/daninR2/STOCK', 
-                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M18 10h-4M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>`,
                 content: `
-                    <h2 class="text-4xl font-bold text-primary mb-6">Stock Market Simulator Demo</h2>
-                    <p class="text-lg mb-8 text-gray-300">Detailed project description...</p>
+                    <h2 class="text-4xl font-bold text-primary mb-6">Stock Market Simulator</h2>
+                    <p class="text-lg mb-8 text-slate-300">This was one of my first relatively large-scale projects. Although I never fully finished every feature, I’m still proud of what my Grade 11 self managed to build. It was the first time I really merged my interest in finance with my coding skills. The project is essentially a 'paper trading' simulator where users pick stocks to purchase, while the system tracks all buys, sells, and profits in the background.</p>
                 `
             },
             {
                 id: 'sql-banking',
                 title: 'SQL Banking Database',
-                description: 'Designed and implemented a SQL-based banking database managing over 1,000 simulated user accounts, streamlining financial records.',
+                description: 'Relational database schema managing customer balances, accounts, and TFSAs.',
                 tech: ['Python', 'SQL'],
                 githubUrl: 'https://github.com/daninR2/SQL-Database',
-                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>`,
                 content: `
-                    <h2 class="text-4xl font-bold text-primary mb-6">SQL Banking Database Demo</h2>
-                    <p class="text-lg mb-8 text-gray-300">Detailed project description...</p>
+                    <h2 class="text-4xl font-bold text-primary mb-6">SQL Banking Database</h2>
+                    <p class="text-lg mb-8 text-slate-300">This was my first deep dive into SQL, completed as a duo project for my Database I class. Although I was initially hesitant about working with relational databases, the project became incredibly engaging once we started building a banking system. We designed the schema to manage everything from customer balances and account types to specialized products like TFSAs.</p>
                 `
             },
             {
                 id: 'fpl-helper',
                 title: 'FPL Helper',
-                description: 'A Fantasy Premier League AI and Database module to ensure I finish above the bottom two in my league',
+                description: 'AI-driven tool evaluating xG and xA metrics to secure a fantasy league edge.',
                 tech: ['SQL', 'Python'],
                 githubUrl: 'https://github.com/daninR2/FPL_DB', 
-                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2-3-.895-3-2 1.343-2 3-2zM4 17h16M4 17l.793-1.587A2 2 0 017 14h10a2 2 0 012.207 1.413L20 17M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"></path></svg>`,
-                content: `...`
+                content: `
+                    <h2 class="text-4xl font-bold text-primary mb-6">Fantasy Premier League Helper</h2>
+                    <p class="text-lg mb-8 text-slate-300">The FPL Helper is a project I'm incredibly excited about. It’s designed to give me a competitive edge in my family’s Fantasy Premier League by using AI modules to analyze advanced metrics like xG (Expected Goals), xA (Expected Assists), and xCS (Expected Clean Sheets). The goal is to consistently stay ahead of the curve—and avoid the league punishment.</p>
+                `
             },
             {
                 id: 'portfolio-site',
                 title: 'Portfolio Website',
-                description: 'A responsive, modern portfolio demonstrating strong fundamental front-end design, SPA routing, and dark theme implementation using Tailwind CSS.',
+                description: 'A personal hub documenting my technical growth and active projects.',
                 tech: ['HTML', 'Tailwind', 'JS'], 
                 githubUrl: 'https://github.com/daninR2/website',
-                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v2a2 2 0 01-2 2m0-6H5m14 0a2 2 0 00-2-2H7a2 2 0 00-2 2m0 6v-2m0 2a2 2 0 002 2h10a2 2 0 002-2m-7-6v6"></path></svg>`,
-                content: `...`
+                content: `
+                    <h2 class="text-4xl font-bold text-primary mb-6">Website Portfolio</h2>
+                    <p class="text-lg mb-8 text-slate-300">You’re looking at it! This portfolio is a project I’ve wanted to build for a long time. It took a few months of work to get the foundation right, and while it's still a work in progress, it represents my current growth as a developer. My goal is to keep expanding this space as I take on more complex challenges in my program.</p>
+                `
             },
             {
                 id: 'Socket-Programming',
                 title: 'Socket-Programming',
-                description: 'A command-line application built in C# to process large JSON data streams, utilizing asynchronous tasks for high-performance throughput.',
-                tech: ['C#', '.NET', 'JSON'],
+                description: 'Python multi-client TCP system handling messaging and file transfers.',
+                tech: ['Python', 'TCP'],
                 githubUrl: 'https://github.com/daninR2/Socket-Programming',
-                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11l-7 7-7-7"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v14"></path></svg>`,
-                content: `...`
+                content: `
+                    <h2 class="text-4xl font-bold text-primary mb-6">Socket-Programming</h2>
+                    <p class="text-lg mb-8 text-slate-300">I built this for my CP372 course to get a better handle on how data actually travels across a network. It’s a Python-based system using TCP sockets that allows multiple clients to talk to a server at the same time. I implemented features for messaging, status checks, and file transfers, which helped me understand the logic required to keep communication stable.</p>
+                `
             },
             {
-                id: 'Sneaker E-commerce',
+                id: 'Sneaker-Hub',
                 title: 'SneakerHub',
-                description: 'A software engineering project, an E-commerce webstore for Sneakers',
+                description: 'Collaborative e-commerce platform featuring full order tracking logic.',
                 tech: ['HTML', 'Javascript'], 
                 githubUrl: 'https://github.com/daninR2/SneakerHub',
-                iconSvg: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2-3-.895-3-2 1.343-2 3-2zM9 17h6M9 13h6M5 12v6m14-6v6M5 12a7 7 0 0114 0"></path></svg>`,
-                content: `...`
+                content: `
+                    <h2 class="text-4xl font-bold text-primary mb-6">SneakerHub</h2>
+                    <p class="text-lg mb-8 text-slate-300">This was a team project where we built a functional sneaker e-commerce app. I worked on everything from the storefront layout to the JavaScript logic behind the order tracking system. Using Git and GitHub to manage the codebase as a team was a huge part of the process, and it was rewarding to see the whole purchasing flow come together.</p>
+                `
             }
         ];
         
-        // --- GLOBAL CURSOR VARIABLES ---
         let cursor, glow;
 
-        // --- NAVIGATION WITH TRANSITIONS ---
         function navigateTo(pageId) {
             const mainContent = document.getElementById('main-content');
-            
             mainContent.classList.add('page-exit');
 
             setTimeout(() => {
@@ -296,22 +304,19 @@
                     mainContent.innerHTML = getExperiencePageContent(experience);
                 }
 
-                window.scrollTo({ top: 0, behavior: 'auto' });
+                // Force scroll to top immediately after content swap
+                window.scrollTo(0, 0);
 
                 mainContent.classList.remove('page-exit');
                 mainContent.classList.add('page-enter');
-
-                void mainContent.offsetWidth; // Trigger reflow
-
+                void mainContent.offsetWidth;
                 mainContent.classList.remove('page-enter');
-                
-                // Re-attach listeners for new content
                 attachInteractiveListeners();
 
                 if (pageId === 'home') {
                     setTimeout(() => {
                         const hash = window.location.hash;
-                        if (hash) {
+                        if (hash && hash !== '#') {
                             document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
                         }
                     }, 100);
@@ -349,41 +354,35 @@
                     <h1 class="text-5xl md:text-6xl font-extrabold mb-4 text-secondary">
                         Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-400 drop-shadow-lg">Daniyal</span>
                     </h1>
-                    <p class="text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto">
+                    <p class="text-xl md:text-2xl text-slate-400 mb-8 max-w-3xl mx-auto">
                         I'm currently a third-year Computer Science student at Laurier!
                     </p>
-                    <a href="#projects" onclick="document.getElementById('projects').scrollIntoView({ behavior: 'smooth' }); return false;" class="cursor-pointer-item inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-lg text-black bg-primary hover:bg-purple-400 transition duration-300 transform hover:scale-105">
+                    <a href="#projects" onclick="handleNavClick(event, '#projects')" class="cursor-pointer-item inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-lg text-black bg-primary hover:bg-purple-400 transition duration-300 transform hover:scale-105">
                         View My Projects
                     </a>
                 </section>
 
-                <hr class="border-gray-800 mb-16 opacity-50">
+                <hr class="border-slate-800 mb-16 opacity-30">
 
                 <section id="projects" class="py-12">
                     <h2 class="text-4xl font-bold text-secondary mb-10 text-center">Featured Projects</h2>
-
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12">
                         ${projects.map(project => `
-                            <div class="glass-panel px-6 pt-6 pb-6 rounded-xl shadow-2xl hover:shadow-primary/40 transition duration-300 transform hover:-translate-y-1">
-                                <div class="text-primary text-3xl mb-4">
-                                    ${project.iconSvg}
-                                </div>
+                            <div class="glass-panel px-6 pt-6 pb-6 rounded-xl shadow-2xl hover:shadow-primary/20 transition duration-300 transform hover:-translate-y-1">
                                 <div class="fpl-card-content">
                                     <h3 class="text-xl font-semibold mb-2 text-secondary">${project.title}</h3>
-                                    
-                                    <p class="text-gray-400 text-sm fpl-card-description">
+                                    <p class="text-slate-400 text-sm fpl-card-description">
                                         ${project.description}
                                     </p>
-
-                                    <div class="flex items-center justify-between mt-auto pt-4 border-t border-gray-700/50">
+                                    <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-800/50">
                                         <div class="flex space-x-2 text-xs font-medium"> 
-                                            ${project.tech.map(t => `<span class="bg-gray-800/80 text-primary px-2 py-0.5 rounded-full border border-gray-700">${t}</span>`).join('')}
+                                            ${project.tech.map(t => `<span class="bg-indigo-950/40 text-primary px-2 py-0.5 rounded-full border border-primary/10">${t}</span>`).join('')}
                                         </div>
                                         <div class="flex space-x-3 ml-2 whitespace-nowrap">
                                             <a href="#" onclick="navigateTo('${project.id}'); return false;" class="text-primary hover:text-purple-400 text-sm font-medium flex items-center transition-colors cursor-pointer-item">
                                                 View Demo &rarr;
                                             </a>
-                                            <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white text-sm font-medium transition-colors cursor-pointer-item">GitHub</a>
+                                            <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white text-sm font-medium transition-colors cursor-pointer-item">GitHub</a>
                                         </div>
                                     </div>
                                 </div>
@@ -394,25 +393,23 @@
                 
                 <section id="about" class="py-12 text-center">
                     <h2 class="text-3xl font-bold text-secondary mb-4">About Me</h2>
-                    <p class="text-lg text-gray-400 max-w-4xl mx-auto mb-10">
-                        I am passionate about creating clean, efficient, and well-documented code. My focus is on full-stack development, but I enjoy diving deep into new frameworks and technologies to solve complex problems.
+                    <p class="text-lg text-slate-400 max-w-4xl mx-auto mb-10">
+                        I'm a 3rd-year CS student at Laurier. I look at programming as a tool to solve problems, particularly in things I’m actually interested in, like finance and investing. I’m pretty deep into the stock market and love the strategy involved in personal trading. When I'm not focused on that, I'm usually playing soccer or watching a game - Manchester is Blue!
                     </p>
 
                     <div class="max-w-3xl mx-auto mt-16 mb-20 text-left">
                         <h3 class="text-2xl font-bold text-primary mb-8 text-center">My Journey</h3>
-                        <ol class="relative border-l border-gray-700 ml-4 md:ml-6">                  
+                        <ol class="relative border-l border-slate-800 ml-4 md:ml-6">                   
                             ${experiences.map(exp => `
                                 <li class="mb-10 ml-8 group">
-                                    <span class="absolute flex items-center justify-center w-8 h-8 bg-gray-900 rounded-full -left-4 ring-4 ring-background-body border-2 border-gray-600 group-hover:border-primary transition duration-300">
-                                        <svg class="w-4 h-4 text-gray-400 group-hover:text-primary" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                    </span>
-                                    <div class="p-6 glass-panel rounded-xl hover:shadow-primary/20 transition duration-300 cursor-pointer cursor-pointer-item" onclick="navigateTo('${exp.id}')">
+                                    <span class="absolute flex items-center justify-center w-4 h-4 bg-indigo-950 rounded-full -left-2 ring-4 ring-black border border-primary/40 group-hover:border-primary transition duration-300"></span>
+                                    <div class="p-6 glass-panel rounded-xl hover:shadow-primary/10 transition duration-300 cursor-pointer cursor-pointer-item" onclick="navigateTo('${exp.id}')">
                                         <h3 class="flex items-center mb-1 text-xl font-semibold text-secondary group-hover:text-primary transition duration-300">
                                             ${exp.title}
                                             <span class="bg-primary/20 text-primary text-xs font-medium mr-2 px-2.5 py-0.5 rounded ml-3 border border-primary/20">Latest</span>
                                         </h3>
-                                        <time class="block mb-3 text-sm font-normal leading-none text-gray-500">${exp.date}</time>
-                                        <p class="mb-4 text-base font-normal text-gray-400">${exp.description}</p>
+                                        <time class="block mb-3 text-sm font-normal leading-none text-slate-500">${exp.date}</time>
+                                        <p class="mb-4 text-base font-normal text-slate-400">${exp.description}</p>
                                         <a href="#" onclick="navigateTo('${exp.id}'); return false;" class="inline-flex items-center text-sm font-medium text-primary hover:text-white transition duration-150">
                                             Read more 
                                             <svg class="w-3 h-3 ml-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
@@ -424,50 +421,53 @@
                     </div>
 
                     <div class="glass-panel p-8 rounded-xl shadow-2xl">
-                        <h3 class="text-2xl font-bold text-primary mb-6">My Tech Stack</h3>
+                        <h3 class="text-2xl font-bold text-primary mb-6 text-center">My Tech Stack</h3>
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 text-left">
-                            <div class="p-4 bg-gray-800/50 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700/80 cursor-pointer-item">
-                                <div class="text-primary text-2xl mb-1 flex items-center">
-                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                                    <span class="font-semibold text-white">Frontend</span>
-                                </div>
-                                <ul class="text-sm text-gray-400 list-disc list-inside ml-2 space-y-0.5">
+                            <div class="p-4 bg-indigo-950/20 rounded-lg border border-primary/10 transition duration-300 hover:bg-indigo-900/30 cursor-pointer-item">
+                                <div class="text-primary text-xl font-bold mb-2">Frontend</div>
+                                <ul class="text-sm text-slate-400 space-y-1">
                                     <li>HTML/CSS</li>
                                     <li>JavaScript</li>
-                                    <li>React/Angular</li>
+                                    <li>React</li>
                                 </ul>
                             </div>
-                            <div class="p-4 bg-gray-800/50 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700/80 cursor-pointer-item">
-                                <div class="text-primary text-2xl mb-1 flex items-center">
-                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                                    <span class="font-semibold text-white">Backend</span>
-                                </div>
-                                <ul class="text-sm text-gray-400 list-disc list-inside ml-2 space-y-0.5">
+                            <div class="p-4 bg-indigo-950/20 rounded-lg border border-primary/10 transition duration-300 hover:bg-indigo-900/30 cursor-pointer-item">
+                                <div class="text-primary text-xl font-bold mb-2">Backend</div>
+                                <ul class="text-sm text-slate-400 space-y-1">
                                     <li>Node.js</li>
                                     <li>Python (Flask)</li>
                                     <li>Java (Spring)</li>
                                 </ul>
                             </div>
-                             <div class="p-4 bg-gray-800/50 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700/80 cursor-pointer-item">
-                                <div class="text-primary text-2xl mb-1 flex items-center">
-                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10h16V7M4 7h16M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4M4 17h16M4 17c0 2.21 3.582 4 8 4s8-1.79 8-4"></path></svg>
-                                    <span class="font-semibold text-white">Database</span>
-                                </div>
-                                <ul class="text-sm text-gray-400 list-disc list-inside ml-2 space-y-0.5">
+                             <div class="p-4 bg-indigo-950/20 rounded-lg border border-primary/10 transition duration-300 hover:bg-indigo-900/30 cursor-pointer-item">
+                                <div class="text-primary text-xl font-bold mb-2">Database</div>
+                                <ul class="text-sm text-slate-400 space-y-1">
                                     <li>PostgreSQL</li>
-                                    <li>MySQL/SQL</li>
+                                    <li>MySQL / SQL</li>
                                     <li>MongoDB</li>
                                 </ul>
                             </div>
-                            <div class="p-4 bg-gray-800/50 rounded-lg border border-gray-700 transition duration-300 hover:bg-gray-700/80 cursor-pointer-item">
-                                <div class="text-primary text-2xl mb-1 flex items-center">
-                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                                    <span class="font-semibold text-white">Cloud/Ops</span>
-                                </div>
-                                <ul class="text-sm text-gray-400 list-disc list-inside ml-2 space-y-0.5">
-                                    <li>AWS/GCP</li>
+                            <div class="p-4 bg-indigo-950/20 rounded-lg border border-primary/10 transition duration-300 hover:bg-indigo-900/30 cursor-pointer-item">
+                                <div class="text-primary text-xl font-bold mb-2">Cloud</div>
+                                <ul class="text-sm text-slate-400 space-y-1">
+                                    <li>AWS</li>
                                     <li>Docker</li>
-                                    <li>Git/GitHub</li>
+                                    <li>Git / GitHub</li>
+                                </ul>
+                            </div>
+                            <div class="p-4 bg-indigo-950/20 rounded-lg border border-primary/10 transition duration-300 hover:bg-indigo-900/30 cursor-pointer-item">
+                                <div class="text-primary text-xl font-bold mb-2">Languages</div>
+                                <ul class="text-sm text-slate-400 space-y-1">
+                                    <li>Java / C++</li>
+                                    <li>Python</li>
+                                    <li>C#</li>
+                                </ul>
+                            </div>
+                            <div class="p-4 bg-indigo-950/20 rounded-lg border border-primary/10 transition duration-300 hover:bg-indigo-900/30 cursor-pointer-item">
+                                <div class="text-primary text-xl font-bold mb-2">AI / Data</div>
+                                <ul class="text-sm text-slate-400 space-y-1">
+                                    <li>Pandas / NumPy</li>
+                                    <li>OpenAI</li>
                                 </ul>
                             </div>
                         </div>
@@ -481,19 +481,14 @@
             `;
         }
         
-        // --- STARTUP LOGIC ---
         window.onload = () => {
-            // FIX: Initialize cursor variables HERE, when HTML is ready
+            window.scrollTo(0, 0);
             cursor = document.getElementById('custom-cursor');
             glow = document.getElementById('cursor-glow');
-
-            createStars(); 
-            animateStars(); 
-            navigateTo('home');
-            attachInteractiveListeners(); // Ensure listeners attached initially
+            createStars(); animateStars(); navigateTo('home');
+            attachInteractiveListeners();
         };
 
-        // --- SCROLL PROGRESS LOGIC ---
         window.addEventListener('scroll', () => {
             const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
             const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -502,157 +497,95 @@
             if (progressBar) progressBar.style.width = scrolled + "%";
         });
 
-        // --- CUSTOM CURSOR LOGIC ---
         let mouse = { x: -1000, y: -1000 }; 
-        
-        // Update mouse position
         window.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-            
-            // Move cursor elements only if they exist
-            if(cursor) {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-            }
-            if(glow) {
-                glow.style.left = e.clientX + 'px';
-                glow.style.top = e.clientY + 'px';
-            }
+            mouse.x = e.clientX; mouse.y = e.clientY;
+            if(cursor) { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; }
+            if(glow) { glow.style.left = e.clientX + 'px'; glow.style.top = e.clientY + 'px'; }
         });
 
-        // Add interaction effect on hoverable elements
         function attachInteractiveListeners() {
-            // Select all interactive elements
             const interactiveElements = document.querySelectorAll('a, button, input, .cursor-pointer, .cursor-pointer-item');
-            
             interactiveElements.forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    document.body.classList.add('hovering');
-                });
-                el.addEventListener('mouseleave', () => {
-                    document.body.classList.remove('hovering');
-                });
+                el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+                el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
             });
         }
 
-        // --- STARRY BACKGROUND LOGIC (With Repulsion) ---
         const starData = [];
-
         function createStars() {
             const starContainer = document.getElementById('star-container');
             const starCount = 100;
-
             for (let i = 0; i < starCount; i++) {
                 const wrapper = document.createElement('div');
                 wrapper.classList.add('star-wrapper');
-                
                 const star = document.createElement('div');
                 star.classList.add('star');
-                
-                const x = Math.random() * 100;
-                const y = Math.random() * 100;
-                const size = Math.random() * 2 + 1; 
-                const duration = Math.random() * 3 + 2; 
-                const delay = Math.random() * 5;
-
-                wrapper.style.left = `${x}%`;
-                wrapper.style.top = `${y}%`;
-                wrapper.style.width = `${size}px`;
-                wrapper.style.height = `${size}px`;
-
-                star.style.animationDuration = `${duration}s`;
-                star.style.animationDelay = `${delay}s`;
-                
-                if (Math.random() > 0.8) {
-                    star.style.backgroundColor = '#a855f7';
-                    star.style.boxShadow = `0 0 ${size * 2}px #a855f7`;
-                }
-
-                wrapper.appendChild(star);
-                starContainer.appendChild(wrapper);
-
+                const x = Math.random() * 100; const y = Math.random() * 100; const size = Math.random() * 2 + 1;
+                wrapper.style.left = `${x}%`; wrapper.style.top = `${y}%`; wrapper.style.width = `${size}px`; wrapper.style.height = `${size}px`;
+                star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                if (Math.random() > 0.8) { star.style.backgroundColor = '#a855f7'; }
+                wrapper.appendChild(star); starContainer.appendChild(wrapper);
                 starData.push({ element: wrapper, xPct: x, yPct: y });
             }
         }
 
         function animateStars() {
             requestAnimationFrame(animateStars);
-
-            const maxDist = 150; 
-            const width = window.innerWidth;
-            const height = window.innerHeight;
-
+            const maxDist = 150; const width = window.innerWidth; const height = window.innerHeight;
             starData.forEach(star => {
-                const starX = (star.xPct / 100) * width;
-                const starY = (star.yPct / 100) * height;
-
-                const dx = mouse.x - starX;
-                const dy = mouse.y - starY;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-
+                const starX = (star.xPct / 100) * width; const starY = (star.yPct / 100) * height;
+                const dx = mouse.x - starX; const dy = mouse.y - starY; const dist = Math.sqrt(dx * dx + dy * dy);
                 if (dist < maxDist) {
-                    const force = (maxDist - dist) / maxDist; 
-                    const angle = Math.atan2(dy, dx);
-                    
-                    const moveX = Math.cos(angle) * force * -100;
-                    const moveY = Math.sin(angle) * force * -100;
-
-                    star.element.style.transform = `translate(${moveX}px, ${moveY}px)`;
-                } else {
-                    star.element.style.transform = `translate(0px, 0px)`;
-                }
+                    const force = (maxDist - dist) / maxDist; const angle = Math.atan2(dy, dx);
+                    star.element.style.transform = `translate(${Math.cos(angle) * force * -80}px, ${Math.sin(angle) * force * -80}px)`;
+                } else { star.element.style.transform = `translate(0px, 0px)`; }
             });
         }
 
         function handleNavClick(event, targetId) {
-            if (targetId.startsWith('#')) {
-                event.preventDefault();
+            event.preventDefault();
+            const targetEl = document.querySelector(targetId);
+
+            if (targetEl) {
+                targetEl.scrollIntoView({ behavior: 'smooth' });
+            } else {
                 navigateTo('home');
                 setTimeout(() => {
                     document.querySelector(targetId)?.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-            } else {
-                return true;
+                }, 450); 
             }
         }
     </script>
 </head>
 <body class="bg-background-body text-secondary min-h-screen">
-    
-    <div id="scroll-progress-container">
-        <div id="scroll-progress-bar"></div>
-    </div>
-
-    <div id="custom-cursor"></div>
-    <div id="cursor-glow"></div>
-
+    <div id="scroll-progress-container"><div id="scroll-progress-bar"></div></div>
+    <div id="custom-cursor"></div><div id="cursor-glow"></div>
     <div id="star-container"></div>
 
-    <nav class="sticky top-0 z-10 bg-background-body shadow-2xl shadow-primary/10 border-b border-gray-800 glass-panel">
+    <nav class="sticky top-0 z-10 bg-black/80 shadow-2xl shadow-primary/5 border-b border-primary/10 glass-panel">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <a href="#" onclick="navigateTo('home'); return false;" class="text-2xl font-bold text-primary hover:text-purple-400 transition duration-150 cursor-pointer-item">DANIYAL.DE</a>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <a href="#projects" onclick="handleNavClick(event, '#projects')" class="text-gray-400 hover:text-primary transition duration-150 font-medium cursor-pointer-item">Projects</a>
-                    <a href="#about" onclick="handleNavClick(event, '#about')" class="text-gray-400 hover:text-primary transition duration-150 font-medium cursor-pointer-item">About</a>
-                    <a href="#contact" href="mailto:naqv7430@mylaurier.ca" class="px-3 py-1 text-sm font-semibold rounded-full text-black bg-primary hover:bg-purple-400 transition duration-150 shadow-lg cursor-pointer-item">Contact</a>
+                    <a href="#projects" onclick="handleNavClick(event, '#projects')" class="text-slate-400 hover:text-primary transition duration-150 font-medium cursor-pointer-item">Projects</a>
+                    <a href="#about" onclick="handleNavClick(event, '#about')" class="text-slate-400 hover:text-primary transition duration-150 font-medium cursor-pointer-item">About</a>
+                    <a href="#contact" onclick="handleNavClick(event, '#contact')" class="px-3 py-1 text-sm font-semibold rounded-full text-black bg-primary hover:bg-purple-400 transition duration-150 shadow-lg cursor-pointer-item">Contact</a>
                 </div>
             </div>
         </div>
     </nav>
 
     <main id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="text-center text-gray-500 py-24">Loading portfolio...</div>
+        <div class="text-center text-slate-500 py-24">Loading portfolio...</div>
     </main>
 
-    <footer class="bg-background-dark text-gray-500 py-6 mt-16 border-t border-gray-700 glass-panel">
+    <footer class="bg-background-dark/90 text-slate-500 py-6 mt-16 border-t border-primary/10 glass-panel">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
             &copy; 2025 Daniyal. Built with Tailwind CSS and JavaScript.
         </div>
     </footer>
-
 </body>
 </html>
