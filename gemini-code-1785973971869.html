@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Projects — Daniyal Naqvi</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23e7caa2'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='30' font-weight='700' text-anchor='middle' fill='%2326433d'%3EDN%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* Core Tokens & Reset (Matching Main Theme) */
+:root{ --sand:#e7caa2; --sand-deep:#dec397; --sand-highlight:#f8ecd9; --shadow-dark:rgba(151,116,73,.45); --shadow-dark-strong:rgba(120,91,57,.55); --shadow-light:rgba(255,248,235,.85); --pine:#26433d; --pine-light:#35594f; --ink:#33261a; --ink-muted:#5a4835; --font-display:'Space Grotesk',sans-serif; --font-body:'Manrope',sans-serif; --font-mono:'JetBrains Mono',monospace; --radius-sm:12px; --radius-md:22px; --radius-lg:34px; --radius-full:999px; --ease:cubic-bezier(.22,1,.36,1); --nav-h:80px; --container:1180px; }
+*,*::before,*::after{box-sizing:border-box;} html{scroll-behavior:smooth;}
+body{ margin:0; background:var(--sand); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+a{color:inherit;text-decoration:none;} ul{list-style:none;margin:0;padding:0;} h1,h2,h3,p{margin:0;}
+
+.container{ width:100%; max-width:var(--container); margin-inline:auto; padding-inline:clamp(20px,5vw,48px); }
+.eyebrow{ font-family:var(--font-mono); font-size:.8rem; letter-spacing:.14em; text-transform:uppercase; color:var(--pine); display:inline-flex; align-items:center; gap:10px; }
+.eyebrow::before{ content:''; width:7px;height:7px;border-radius:50%; background:var(--pine); flex:none; }
+
+/* Neumorphic */
+.neu-raised{ background:var(--sand); box-shadow:8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light); }
+.neu-flat{ background:var(--sand); box-shadow:2px 2px 6px var(--shadow-dark), -2px -2px 6px var(--shadow-light); }
+
+/* Nav */
+.nav-wrap{ position:fixed; top:18px; left:0; right:0; z-index:100; display:flex; justify-content:center; padding-inline:16px; }
+.nav{ width:100%; max-width:960px; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:12px 14px 12px 22px; border-radius:var(--radius-full); }
+.logo{ font-family:var(--font-display); font-weight:700; font-size:1.05rem; display:flex; align-items:center; gap:9px; }
+.logo-dot{width:9px;height:9px;border-radius:50%;background:var(--pine);flex:none;}
+.nav-links{ display:flex; gap:6px; }
+.nav-links a{ font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; padding:9px 16px; border-radius:var(--radius-full); color:var(--ink-muted); transition:color .25s ease, box-shadow .25s ease, background .25s ease; }
+.nav-links a:hover, .nav-links a.is-active{ color:var(--pine); background:var(--sand); box-shadow:3px 3px 7px var(--shadow-dark), -3px -3px 7px var(--shadow-light); }
+.btn-back{ font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; padding:11px 20px; border-radius:var(--radius-full); background:var(--pine); color:var(--sand-highlight); display:flex; align-items:center; gap:8px; box-shadow:4px 4px 10px var(--shadow-dark-strong), -4px -4px 10px var(--shadow-light); }
+.btn-back:hover{background:var(--pine-light);} .btn-back svg{width:14px;height:14px;}
+
+/* Page Content */
+.page-header{ padding: 180px 0 60px; text-align:center; }
+.page-title{ font-family:var(--font-display); font-size:clamp(2.5rem, 6vw, 4rem); font-weight:700; letter-spacing:-.02em; margin-top:16px; }
+.projects-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 40px; padding: 40px 0 120px; }
+
+.project-card{ border-radius:var(--radius-lg); padding:36px; display:flex; flex-direction:column; }
+.project-icon{ width:64px; height:64px; border-radius:var(--radius-md); display:flex; align-items:center; justify-content:center; margin-bottom: 24px; color:var(--pine); }
+.project-icon svg{ width:28px; height:28px; stroke:currentColor; }
+.project-title{ font-family:var(--font-display); font-weight:600; font-size:1.6rem; margin-bottom: 12px; }
+.project-desc{ color:var(--ink-muted); font-size:.95rem; flex-grow: 1; margin-bottom: 24px; }
+.project-tags{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom: 24px; }
+.project-tags .tag{ font-family:var(--font-mono); font-size:.72rem; padding:7px 13px; border-radius:var(--radius-full); color:var(--pine); }
+.project-link{ font-family:var(--font-mono); font-size:.82rem; letter-spacing:.04em; color:var(--pine); display:inline-flex; align-items:center; gap:8px; align-self: flex-start; padding-bottom:2px; border-bottom:1.5px solid var(--pine); transition:gap .25s var(--ease); }
+.project-link svg{ width:13px; height:13px; transition:transform .25s var(--ease); }
+.project-link:hover{ gap:12px; } .project-link:hover svg{ transform:translate(2px,-2px); }
+
+@media(max-width: 760px){
+  .nav-links{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="nav-wrap">
+  <nav class="nav neu-raised">
+    <a href="index.html" class="logo"><span class="logo-dot"></span>DANIYAL.DEV</a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="projects.html" class="is-active">Projects</a></li>
+    </ul>
+    <a href="index.html" class="btn-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Back Home
+    </a>
+  </nav>
+</div>
+
+<header class="page-header container">
+  <div class="eyebrow">Portfolio Archive</div>
+  <h1 class="page-title">All Projects</h1>
+</header>
+
+<main class="projects-grid container">
+  
+  <!-- Project 1 -->
+  <div class="project-card neu-raised">
+    <div class="project-icon neu-flat">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+    </div>
+    <h3 class="project-title">vel Web Application</h3>
+    <p class="project-desc">A specialized web application built for beauty and fragrance products, featuring a robust ingestion script to handle dynamic product data tables and seamless frontend rendering.</p>
+    <div class="project-tags">
+      <span class="tag neu-flat">Next.js</span>
+      <span class="tag neu-flat">Node.js</span>
+      <span class="tag neu-flat">Full-Stack</span>
+    </div>
+    <a href="#" class="project-link">
+      Source Code <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+    </a>
+  </div>
+
+  <!-- Project 2 -->
+  <div class="project-card neu-raised">
+    <div class="project-icon neu-flat">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+    </div>
+    <h3 class="project-title">Banking Database</h3>
+    <p class="project-desc">Engineered a relational database project focused on transaction tracking and data integrity. The architecture successfully models and manages over 1,000 simulated client records.</p>
+    <div class="project-tags">
+      <span class="tag neu-flat">SQL</span>
+      <span class="tag neu-flat">Database Design</span>
+      <span class="tag neu-flat">Data Integrity</span>
+    </div>
+    <a href="#" class="project-link">
+      Source Code <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+    </a>
+  </div>
+
+  <!-- Project 3 -->
+  <div class="project-card neu-raised">
+    <div class="project-icon neu-flat">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    </div>
+    <h3 class="project-title">Stock Market Simulator</h3>
+    <p class="project-desc">A graphical user interface application built to model market volatility. Integrates a custom dynamic pricing algorithm to simulate real-time asset fluctuations and trading mechanics.</p>
+    <div class="project-tags">
+      <span class="tag neu-flat">GUI</span>
+      <span class="tag neu-flat">Algorithms</span>
+      <span class="tag neu-flat">Data Modeling</span>
+    </div>
+    <a href="#" class="project-link">
+      Source Code <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+    </a>
+  </div>
+
+  <!-- Project 4 (Original FPL) -->
+  <div class="project-card neu-raised">
+    <div class="project-icon neu-flat">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M6 3h12l-1 9a5 5 0 0 1-10 0L6 3z"/><path d="M6 3H3a2 2 0 0 0 2 4"/><path d="M18 3h3a2 2 0 0 1-2 4"/></svg>
+    </div>
+    <h3 class="project-title">Da Block — FPL Cabinet</h3>
+    <p class="project-desc">A soccer-themed locker room: eight jerseys open into personalized, wood-panelled trophy cabinets, each one tracking a season's silverware.</p>
+    <div class="project-tags">
+      <span class="tag neu-flat">Interactive UI</span>
+      <span class="tag neu-flat">JavaScript</span>
+      <span class="tag neu-flat">GitHub Pages</span>
+    </div>
+    <a href="https://daninr2.github.io/FPL_Cabinet/" target="_blank" rel="noopener" class="project-link">
+      View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+    </a>
+  </div>
+
+</main>
+</body>
+</html>
