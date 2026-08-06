@@ -146,129 +146,91 @@ a{color:inherit;text-decoration:none;} ul{list-style:none;margin:0;padding:0;} h
     </a>
   </div>
 
-</main>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>About — Daniyal Naqvi</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23e7caa2'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='30' font-weight='700' text-anchor='middle' fill='%2326433d'%3EDN%3C/text%3E%3C/svg%3E" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<style>
-/* Core Tokens & Reset (Matching Main Theme) */
-:root{ --sand:#e7caa2; --sand-deep:#dec397; --sand-highlight:#f8ecd9; --shadow-dark:rgba(151,116,73,.45); --shadow-dark-strong:rgba(120,91,57,.55); --shadow-light:rgba(255,248,235,.85); --pine:#26433d; --pine-light:#35594f; --ink:#33261a; --ink-muted:#5a4835; --font-display:'Space Grotesk',sans-serif; --font-body:'Manrope',sans-serif; --font-mono:'JetBrains Mono',monospace; --radius-sm:12px; --radius-md:22px; --radius-lg:34px; --radius-full:999px; --ease:cubic-bezier(.22,1,.36,1); --nav-h:80px; --container:1000px; }
-*,*::before,*::after{box-sizing:border-box;} html{scroll-behavior:smooth;}
-body{ margin:0; background:var(--sand); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
-a{color:inherit;text-decoration:none;} ul{list-style:none;margin:0;padding:0;} h1,h2,h3,p{margin:0;}
-
-.container{ width:100%; max-width:var(--container); margin-inline:auto; padding-inline:clamp(20px,5vw,48px); }
-.eyebrow{ font-family:var(--font-mono); font-size:.8rem; letter-spacing:.14em; text-transform:uppercase; color:var(--pine); display:inline-flex; align-items:center; gap:10px; }
-.eyebrow::before{ content:''; width:7px;height:7px;border-radius:50%; background:var(--pine); flex:none; }
-
-/* Neumorphic */
-.neu-raised{ background:var(--sand); box-shadow:8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light); }
-.neu-flat{ background:var(--sand); box-shadow:2px 2px 6px var(--shadow-dark), -2px -2px 6px var(--shadow-light); }
-
-/* Nav */
-.nav-wrap{ position:fixed; top:18px; left:0; right:0; z-index:100; display:flex; justify-content:center; padding-inline:16px; }
-.nav{ width:100%; max-width:960px; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:12px 14px 12px 22px; border-radius:var(--radius-full); }
-.logo{ font-family:var(--font-display); font-weight:700; font-size:1.05rem; display:flex; align-items:center; gap:9px; }
-.logo-dot{width:9px;height:9px;border-radius:50%;background:var(--pine);flex:none;}
-.nav-links{ display:flex; gap:6px; }
-.nav-links a{ font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; padding:9px 16px; border-radius:var(--radius-full); color:var(--ink-muted); transition:color .25s ease, box-shadow .25s ease, background .25s ease; }
-.nav-links a:hover, .nav-links a.is-active{ color:var(--pine); background:var(--sand); box-shadow:3px 3px 7px var(--shadow-dark), -3px -3px 7px var(--shadow-light); }
-.btn-back{ font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; padding:11px 20px; border-radius:var(--radius-full); background:var(--pine); color:var(--sand-highlight); display:flex; align-items:center; gap:8px; box-shadow:4px 4px 10px var(--shadow-dark-strong), -4px -4px 10px var(--shadow-light); }
-.btn-back:hover{background:var(--pine-light);} .btn-back svg{width:14px;height:14px;}
-
-/* Page Content */
-.page-header{ padding: 180px 0 60px; text-align:center; }
-.page-title{ font-family:var(--font-display); font-size:clamp(2.5rem, 6vw, 4rem); font-weight:700; letter-spacing:-.02em; margin-top:16px; }
-.content-section{ padding: 60px 0 120px; }
-
-.timeline{ display:flex; flex-direction:column; gap:40px; margin-top:40px; }
-.timeline-item{ padding: 32px; border-radius:var(--radius-lg); }
-.timeline-header{ display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px; border-bottom: 1px solid var(--shadow-dark); padding-bottom: 16px; margin-bottom: 16px; }
-.role{ font-family:var(--font-display); font-size:1.4rem; font-weight:600; color:var(--pine); }
-.company{ font-family:var(--font-mono); font-size:.9rem; color:var(--ink-muted); text-transform:uppercase; letter-spacing:0.05em; margin-top:4px; }
-.date{ font-family:var(--font-mono); font-size:.85rem; color:var(--ink-muted); background:var(--sand-highlight); padding:6px 12px; border-radius:var(--radius-full); }
-.timeline-content p{ color:var(--ink-muted); margin-bottom:12px; }
-
-@media(max-width: 760px){
-  .nav-links{display:none;}
-}
-</style>
-</head>
-<body>
-
-<div class="nav-wrap">
-  <nav class="nav neu-raised">
-    <a href="index.html" class="logo"><span class="logo-dot"></span>DANIYAL.DEV</a>
-    <ul class="nav-links">
-      <li><a href="about.html" class="is-active">About</a></li>
-      <li><a href="projects.html">Projects</a></li>
-    </ul>
-    <a href="index.html" class="btn-back">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-      Back Home
+  <!-- Project 5 -->
+  <div class="project-card neu-raised">
+    <div class="project-icon neu-flat">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+    </div>
+    <h3 class="project-title">Project Name 5</h3>
+    <p class="project-desc">Brief description of the project, the problem it solves, and the primary technologies utilized to build it.</p>
+    <div class="project-tags">
+      <span class="tag neu-flat">Language</span>
+      <span class="tag neu-flat">Tool</span>
+      <span class="tag neu-flat">Concept</span>
+    </div>
+    <a href="#" class="project-link">
+      Source Code <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
     </a>
-  </nav>
-</div>
-
-<header class="page-header container">
-  <div class="eyebrow">Get to know me</div>
-  <h1 class="page-title">Experience &amp; Background</h1>
-</header>
-
-<main class="content-section container">
-  <h2 style="font-family:var(--font-display); font-size:2rem; margin-bottom: 24px;">Work Experience</h2>
-  
-  <div class="timeline">
-    <div class="timeline-item neu-raised">
-      <div class="timeline-header">
-        <div>
-          <div class="role">Computer Science Lab Instructional Assistant</div>
-          <div class="company">Wilfrid Laurier University</div>
-        </div>
-      </div>
-      <div class="timeline-content">
-        <p>Instructed and supported undergraduate students in mastering core Computer Science concepts, focusing on Python syntax and data structure fundamentals. Facilitated lab sessions to ensure comprehension of programmatic logic and effective code execution.</p>
-      </div>
-    </div>
-
-    <div class="timeline-item neu-raised">
-      <div class="timeline-header">
-        <div>
-          <div class="role">Communications Manager</div>
-          <div class="company">Blossom Social</div>
-        </div>
-      </div>
-      <div class="timeline-content">
-        <p>Managed communication operations and workplace achievements for the fintech startup. Oversaw cross-functional messaging and helped scale operational duties in a fast-paced environment.</p>
-      </div>
-    </div>
   </div>
 
-  <h2 style="font-family:var(--font-display); font-size:2rem; margin-top: 80px; margin-bottom: 24px;">Education</h2>
-  
-  <div class="timeline">
-    <div class="timeline-item neu-raised">
-      <div class="timeline-header">
-        <div>
-          <div class="role">Honours Bachelor of Science (BSc) — Computer Science</div>
-          <div class="company">Wilfrid Laurier University</div>
-        </div>
-        <div class="date">Expected April 2027</div>
-      </div>
-      <div class="timeline-content">
-        <p>Currently completing my final years of study, focusing on software development, automation scripts, digital logic design, and computer networking principles.</p>
-      </div>
+  <!-- Project 6 -->
+  <div class="project-card neu-raised">
+    <div class="project-icon neu-flat">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
     </div>
+    <h3 class="project-title">Project Name 6</h3>
+    <p class="project-desc">Brief description of the project, the problem it solves, and the primary technologies utilized to build it.</p>
+    <div class="project-tags">
+      <span class="tag neu-flat">Language</span>
+      <span class="tag neu-flat">Tool</span>
+      <span class="tag neu-flat">Concept</span>
+    </div>
+    <a href="#" class="project-link">
+      Source Code <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+    </a>
   </div>
+
+  <!-- Project 7 -->
+  <div class="project-card neu-raised">
+    <div class="project-icon neu-flat">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+    </div>
+    <h3 class="project-title">Project Name 7</h3>
+    <p class="project-desc">Brief description of the project, the problem it solves, and the primary technologies utilized to build it.</p>
+    <div class="project-tags">
+      <span class="tag neu-flat">Language</span>
+      <span class="tag neu-flat">Tool</span>
+      <span class="tag neu-flat">Concept</span>
+    </div>
+    <a href="#" class="project-link">
+      Source Code <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+    </a>
+  </div>
+
+  <!-- Project 8 -->
+  <div class="project-card neu-raised">
+    <div class="project-icon neu-flat">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+    </div>
+    <h3 class="project-title">Project Name 8</h3>
+    <p class="project-desc">Brief description of the project, the problem it solves, and the primary technologies utilized to build it.</p>
+    <div class="project-tags">
+      <span class="tag neu-flat">Language</span>
+      <span class="tag neu-flat">Tool</span>
+      <span class="tag neu-flat">Concept</span>
+    </div>
+    <a href="#" class="project-link">
+      Source Code <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+    </a>
+  </div>
+
+  <!-- Project 9 -->
+  <div class="project-card neu-raised">
+    <div class="project-icon neu-flat">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+    </div>
+    <h3 class="project-title">Project Name 9</h3>
+    <p class="project-desc">Brief description of the project, the problem it solves, and the primary technologies utilized to build it.</p>
+    <div class="project-tags">
+      <span class="tag neu-flat">Language</span>
+      <span class="tag neu-flat">Tool</span>
+      <span class="tag neu-flat">Concept</span>
+    </div>
+    <a href="#" class="project-link">
+      Source Code <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+    </a>
+  </div>
+
 </main>
-
 </body>
 </html>
